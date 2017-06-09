@@ -8,6 +8,18 @@
         <lom:title>
             <lom:langstring xml:lang="en">Bloodbath of B-R5RB</lom:langstring>
         </lom:title>
+        <lom:catalogentry>
+            <lom:catalog>URI</lom:catalog>
+            <lom:entry>
+                <lom:langstring>https://en.wikipedia.org/wiki/Bloodbath_of_B-R5RB</lom:langstring>
+            </lom:entry>
+        </lom:catalogentry>
+        <lom:catalogentry>
+            <lom:catalog>URI</lom:catalog>
+            <lom:entry>
+                <lom:langstring>https://www.wikidata.org/wiki/Q16987908</lom:langstring>
+            </lom:entry>
+        </lom:catalogentry>
         <lom:language>en</lom:language>
         <lom:description>
             <lom:langstring xml:lang="en">The Bloodbath of B-R5RB or the Battle of B-R5RB was a massive-scale virtual battle fought in the MMORPG space game Eve Online, and was possibly the largest player versus player battle in history.</lom:langstring>

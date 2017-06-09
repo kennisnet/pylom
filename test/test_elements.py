@@ -10,6 +10,12 @@ class ElementsTestCase(TestCase):
     def test_title(self):
         self.assertEqual(self.lomreader.lom["title"],"Bloodbath of B-R5RB")
 
+    def test_catalogentry(self):
+        self.assertEqual(self.lomreader.lom["catalogentry"][0]["catalog"], "URI")
+        self.assertEqual(self.lomreader.lom["catalogentry"][0]["entry"], "https://en.wikipedia.org/wiki/Bloodbath_of_B-R5RB")
+        self.assertEqual(self.lomreader.lom["catalogentry"][1]["catalog"], "URI")
+        self.assertEqual(self.lomreader.lom["catalogentry"][1]["entry"], "https://www.wikidata.org/wiki/Q16987908")
+
     def test_language(self):
         self.assertIn("en",self.lomreader.lom["language"])
 

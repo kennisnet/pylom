@@ -20,6 +20,7 @@ class LomReader:
 
     def parseFull(self):
         self.__setTitle()
+        self.__setCatalogEntry()
         self.__setLanguage()
         self.__setDescription()
         self.__setKeyword()
@@ -51,6 +52,7 @@ class LomReader:
         value, and empty list a multiple value element. """
         self.lom = {
             "title": "",
+            "catalogentry": [],
             "language": [],
             "description": [],
             "keyword": [],
@@ -70,6 +72,9 @@ class LomReader:
 
     def __setTitle(self):
         self.__setElement("/lom:lom/lom:general/lom:title/lom:langstring[@xml:lang='" + self.lang + "']", "title")
+
+    def __setCatalogEntry(self):
+        self.__setCatalogEntryElement("/lom:lom/lom:general/lom:catalogentry", "catalogentry")
 
     def __setLanguage(self):
         self.__setElement("/lom:lom/lom:general/lom:language","language")
@@ -152,6 +157,24 @@ class LomReader:
                     value = e.xpath("lom:value/lom:langstring", namespaces=self.ns)
                     if value:
                         data["value"] = value[0].text
+                    self.lom[lomkey].append(data)
+            else:
+                raise LookupError("bad type definition in empty LOM")
+
+
+    def __setCatalogEntryElement(self,xpath,lomkey):
+        """ Sets the catalogs and entries from the xpath in the specified lomkey. """
+        element = self.lomxml.xpath(xpath, namespaces=self.ns)
+        if element:
+            if isinstance(self.lom[lomkey], list):
+                for e in element:
+                    data = {"catalog": "", "entry": ""}
+                    catalog = e.xpath("lom:catalog", namespaces=self.ns)
+                    if catalog:
+                        data["catalog"] = catalog[0].text
+                    entry = e.xpath("lom:entry/lom:langstring", namespaces=self.ns)
+                    if entry:
+                        data["entry"] = entry[0].text
                     self.lom[lomkey].append(data)
             else:
                 raise LookupError("bad type definition in empty LOM")
