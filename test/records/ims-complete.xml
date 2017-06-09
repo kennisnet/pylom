@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<lom:lom 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:lom="http://www.imsglobal.org/xsd/imsmd_v1p2"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsmd_v1p2 http://www.imsglobal.org/xsd/imsmd_v1p2p4.xsd">
+
+    <lom:general>
+        <lom:title>
+            <lom:langstring xml:lang="en">Bloodbath of B-R5RB</lom:langstring>
+        </lom:title>
+        <lom:language>en</lom:language>
+        <lom:description>
+            <lom:langstring xml:lang="en">The Bloodbath of B-R5RB or the Battle of B-R5RB was a massive-scale virtual battle fought in the MMORPG space game Eve Online, and was possibly the largest player versus player battle in history.</lom:langstring>
+        </lom:description>
+        <lom:keyword>
+            <lom:langstring xml:lang="en">Eve Online</lom:langstring>
+        </lom:keyword>
+        <lom:keyword>
+            <lom:langstring xml:lang="en">Halloween War</lom:langstring>
+        </lom:keyword>
+        <lom:aggregationlevel>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">2</lom:langstring>
+            </lom:value>
+        </lom:aggregationlevel>
+    </lom:general>
+    <lom:lifecycle>
+        <lom:version>
+            <lom:langstring xml:lang="x-none">1.0.0</lom:langstring>
+        </lom:version>
+        <lom:status>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">final</lom:langstring>
+            </lom:value>
+        </lom:status>
+    </lom:lifecycle>
+    <lom:technical>
+        <lom:format>text/html</lom:format>
+        <lom:location>https://en.wikipedia.org/wiki/Bloodbath_of_B-R5RB</lom:location>
+    </lom:technical>
+    <lom:educational>
+        <lom:learningresourcetype>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">narrative text</lom:langstring>
+            </lom:value>
+        </lom:learningresourcetype>
+        <lom:intendedenduserrole>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">learner</lom:langstring>
+            </lom:value>
+        </lom:intendedenduserrole>
+        <lom:context>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">school</lom:langstring>
+            </lom:value>
+        </lom:context>
+        <lom:context>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">higher education</lom:langstring>
+            </lom:value>
+        </lom:context>
+        <lom:typicalagerange>
+            <lom:langstring xml:lang="x-none">16-60</lom:langstring>
+        </lom:typicalagerange>
+    </lom:educational>
+    <lom:rights>
+        <lom:cost>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">no</lom:langstring>
+            </lom:value>
+        </lom:cost>
+        <lom:copyrightandotherrestrictions>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">yes</lom:langstring>
+            </lom:value>
+        </lom:copyrightandotherrestrictions>
+        <lom:description>
+            <lom:langstring xml:lang="en">Creative Commons Attribution-ShareAlike License</lom:langstring>
+        </lom:description>
+    </lom:rights>
+</lom:lom>
