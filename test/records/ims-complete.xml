@@ -51,7 +51,71 @@
                 <lom:langstring xml:lang="x-none">final</lom:langstring>
             </lom:value>
         </lom:status>
+        <lom:contribute>
+            <lom:role>
+                <lom:source>
+                    <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+                </lom:source>
+                <lom:value>
+                    <lom:langstring xml:lang="x-none">publisher</lom:langstring>
+                </lom:value>
+            </lom:role>
+            <lom:centity>
+                <lom:vcard>BEGIN:VCARD
+FN:Wikipedia
+END:VCARD</lom:vcard>
+            </lom:centity>
+            <lom:date>
+                <lom:datetime>2014-02-02T15:30:00Z</lom:datetime>
+            </lom:date>
+        </lom:contribute>
+        <lom:contribute>
+            <lom:role>
+                <lom:source>
+                    <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+                </lom:source>
+                <lom:value>
+                    <lom:langstring xml:lang="x-none">author</lom:langstring>
+                </lom:value>
+            </lom:role>
+            <lom:centity>
+                <lom:vcard>BEGIN:VCARD
+FN:3family6
+END:VCARD</lom:vcard>
+            </lom:centity>
+            <lom:date>
+                <lom:datetime>2017-06-08T03:16:00Z</lom:datetime>
+            </lom:date>
+        </lom:contribute>
     </lom:lifecycle>
+    <lom:metametadata>
+        <lom:catalogentry>
+            <lom:catalog>URI</lom:catalog>
+            <lom:entry>
+                <lom:langstring>https://github.com/kennisnet/pylom/blob/master/test/records/ims-complete.xml</lom:langstring>
+            </lom:entry>
+        </lom:catalogentry>
+        <lom:contribute>
+            <lom:role>
+                <lom:source>
+                    <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+                </lom:source>
+                <lom:value>
+                    <lom:langstring xml:lang="x-none">creator</lom:langstring>
+                </lom:value>
+            </lom:role>
+            <lom:centity>
+                <lom:vcard>BEGIN:VCARD
+UID:https://github.com/wimmuskee
+END:VCARD</lom:vcard>
+            </lom:centity>
+            <lom:date>
+                <lom:datetime>2017</lom:datetime>
+            </lom:date>
+        </lom:contribute>
+        <lom:metadatascheme>LOMv1.0</lom:metadatascheme>
+        <lom:language>en</lom:language>
+    </lom:metametadata>
     <lom:technical>
         <lom:format>text/html</lom:format>
         <lom:location>https://en.wikipedia.org/wiki/Bloodbath_of_B-R5RB</lom:location>
@@ -81,6 +145,11 @@
                 <lom:langstring xml:lang="x-none">school</lom:langstring>
             </lom:value>
         </lom:context>
+        <lom:typicalagerange>
+            <lom:langstring xml:lang="x-none">16-60</lom:langstring>
+        </lom:typicalagerange>
+    </lom:educational>
+    <lom:educational>
         <lom:context>
             <lom:source>
                 <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
@@ -89,9 +158,6 @@
                 <lom:langstring xml:lang="x-none">higher education</lom:langstring>
             </lom:value>
         </lom:context>
-        <lom:typicalagerange>
-            <lom:langstring xml:lang="x-none">16-60</lom:langstring>
-        </lom:typicalagerange>
     </lom:educational>
     <lom:rights>
         <lom:cost>

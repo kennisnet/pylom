@@ -27,6 +27,11 @@ class LomReader:
         self.__setAggregationLevel()
         self.__setVersion()
         self.__setStatus()
+        self.__setContribute()
+        self.__setMetaCatalogEntry()
+        self.__setMetaContribute()
+        self.__setMetadataScheme()
+        self.__setMetaLanguage()
         self.__setFormat()
         self.__setLocation()
         self.__setLearningResourceType()
@@ -59,6 +64,11 @@ class LomReader:
             "aggregationlevel": "",
             "version": "",
             "status": "",
+            "contribute": [],
+            "metacatalogentry": [],
+            "metacontribute": [],
+            "metadatascheme": [],
+            "metalanguage": "",
             "format": [],
             "location": "",
             "learningresourcetype": [],
@@ -93,6 +103,21 @@ class LomReader:
 
     def __setStatus(self):
         self.__setVocabularyElement("/lom:lom/lom:lifecycle/lom:status", "status")
+
+    def __setContribute(self):
+        self.__setContributeElement("/lom:lom/lom:lifecycle/lom:contribute", "contribute")
+
+    def __setMetaCatalogEntry(self):
+        self.__setCatalogEntryElement("/lom:lom/lom:metametadata/lom:catalogentry", "metacatalogentry")
+
+    def __setMetaContribute(self):
+        self.__setContributeElement("/lom:lom/lom:metametadata/lom:contribute", "metacontribute")
+
+    def __setMetadataScheme(self):
+        self.__setElement("/lom:lom/lom:metametadata/lom:metadatascheme","metadatascheme")
+
+    def __setMetaLanguage(self):
+        self.__setElement("/lom:lom/lom:metametadata/lom:language","metalanguage")
 
     def __setFormat(self):
         self.__setElement("/lom:lom/lom:technical/lom:format","format")
@@ -140,24 +165,10 @@ class LomReader:
         element = self.lomxml.xpath(xpath, namespaces=self.ns)
         if element:
             if isinstance(self.lom[lomkey], str):
-                data = {"source": "", "value": ""}
-                source = element[0].xpath("lom:source/lom:langstring", namespaces=self.ns)
-                if source:
-                    data["source"] = source[0].text
-                value = element[0].xpath("lom:value/lom:langstring", namespaces=self.ns)
-                if value:
-                    data["value"] = value[0].text
-                self.lom[lomkey] = data
+                self.lom[lomkey] = self.__getVocabularyElement(element[0])
             elif isinstance(self.lom[lomkey], list):
                 for e in element:
-                    data = {"source": "", "value": ""}
-                    source = e.xpath("lom:source/lom:langstring", namespaces=self.ns)
-                    if source:
-                        data["source"] = source[0].text
-                    value = e.xpath("lom:value/lom:langstring", namespaces=self.ns)
-                    if value:
-                        data["value"] = value[0].text
-                    self.lom[lomkey].append(data)
+                    self.lom[lomkey].append(self.__getVocabularyElement(e))
             else:
                 raise LookupError("bad type definition in empty LOM")
 
@@ -178,3 +189,36 @@ class LomReader:
                     self.lom[lomkey].append(data)
             else:
                 raise LookupError("bad type definition in empty LOM")
+
+
+    def __setContributeElement(self,xpath,lomkey):
+        """ Sets each contribute from the xpath in a data structure. """
+        element = self.lomxml.xpath(xpath, namespaces=self.ns)
+        if element:
+            for e in element:
+                data = {"role": {}, "entity": [], "date": ""}
+                role = e.xpath("lom:role", namespaces=self.ns)
+                if role:
+                    data["role"] = self.__getVocabularyElement(role[0])
+                entity = e.xpath("lom:centity/lom:vcard", namespaces=self.ns)
+                if entity:
+                    for ent in entity:
+                        data["entity"].append(ent.text)
+                date = e.xpath("lom:date/lom:datetime", namespaces=self.ns)
+                if date:
+                    data["date"] = date[0].text
+
+                self.lom[lomkey].append(data)
+
+
+    def __getVocabularyElement(self,etreepart):
+        """Just return a source-value dictionary based on an Etree element. """
+        data = {"source": "", "value": ""}
+        source = etreepart.xpath("lom:source/lom:langstring", namespaces=self.ns)
+        if source:
+            data["source"] = source[0].text
+        value = etreepart.xpath("lom:value/lom:langstring", namespaces=self.ns)
+        if value:
+            data["value"] = value[0].text
+
+        return data

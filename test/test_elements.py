@@ -37,6 +37,32 @@ class ElementsTestCase(TestCase):
         self.assertEqual(self.lomreader.lom["status"]["source"],"LOMv1.0")
         self.assertEqual(self.lomreader.lom["status"]["value"],"final")
 
+    def test_contribute(self):
+        self.assertEqual(self.lomreader.lom["contribute"][0]["role"]["source"],"LOMv1.0")
+        self.assertEqual(self.lomreader.lom["contribute"][0]["role"]["value"],"publisher")
+        self.assertEqual(self.lomreader.lom["contribute"][0]["entity"][0],"BEGIN:VCARD\nFN:Wikipedia\nEND:VCARD")
+        self.assertEqual(self.lomreader.lom["contribute"][0]["date"],"2014-02-02T15:30:00Z")
+        self.assertEqual(self.lomreader.lom["contribute"][1]["role"]["source"],"LOMv1.0")
+        self.assertEqual(self.lomreader.lom["contribute"][1]["role"]["value"],"author")
+        self.assertEqual(self.lomreader.lom["contribute"][1]["entity"][0],"BEGIN:VCARD\nFN:3family6\nEND:VCARD")
+        self.assertEqual(self.lomreader.lom["contribute"][1]["date"],"2017-06-08T03:16:00Z")
+
+    def test_metacatalogentry(self):
+        self.assertEqual(self.lomreader.lom["metacatalogentry"][0]["catalog"], "URI")
+        self.assertEqual(self.lomreader.lom["metacatalogentry"][0]["entry"], "https://github.com/kennisnet/pylom/blob/master/test/records/ims-complete.xml")
+
+    def test_metacontribute(self):
+        self.assertEqual(self.lomreader.lom["metacontribute"][0]["role"]["source"],"LOMv1.0")
+        self.assertEqual(self.lomreader.lom["metacontribute"][0]["role"]["value"],"creator")
+        self.assertEqual(self.lomreader.lom["metacontribute"][0]["entity"][0],"BEGIN:VCARD\nUID:https://github.com/wimmuskee\nEND:VCARD")
+        self.assertEqual(self.lomreader.lom["metacontribute"][0]["date"],"2017")
+
+    def test_metadatascheme(self):
+        self.assertIn("LOMv1.0", self.lomreader.lom["metadatascheme"])
+
+    def test_metalanguage(self):
+        self.assertEqual(self.lomreader.lom["metalanguage"],"en")
+
     def test_format(self):
         self.assertIn("text/html", self.lomreader.lom["format"])
 
