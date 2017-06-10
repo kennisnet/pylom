@@ -151,15 +151,12 @@ class LomReader:
 
     def __setElement(self,xpath,lomkey):
         """ Sets the value from the xpath in the specified lomkey. """
-        element = self.lomxml.xpath(xpath, namespaces=self.ns)
-        if element:
-            if isinstance(self.lom[lomkey], str):
-                self.lom[lomkey] = element[0].text
-            elif isinstance(self.lom[lomkey], list):
-                for e in element:
-                    self.lom[lomkey].append(e.text)
-            else:
-                raise LookupError("bad type definition in empty LOM")
+        if isinstance(self.lom[lomkey], str):
+            self.lom[lomkey] = self.__getSingleElement(self.lomxml,xpath)
+        elif isinstance(self.lom[lomkey], list):
+            self.lom[lomkey] = self.__getMultipleElement(self.lomxml,xpath)
+        else:
+            raise LookupError("bad type definition in empty LOM")
 
 
     def __setVocabularyElement(self,xpath,lomkey):
@@ -230,8 +227,6 @@ class LomReader:
                 self.lom["classification"].append(data)
 
 
-
-
     def __getVocabularyElement(self,etreepart):
         """Just return a source-value dictionary based on an Etree element. """
         data = {"source": "", "value": ""}
@@ -239,10 +234,14 @@ class LomReader:
         data["value"] = self.__getSingleElement(etreepart,"lom:value/lom:langstring")
         return data
 
+
     def __getSingleElement(self,etreepart,xpath):
         element = etreepart.xpath(xpath, namespaces=self.ns)
         if element:
-            return element[0].text
+            if element[0].text:
+                return element[0].text
+            else:
+                return ""
         else:
             return ""
 
@@ -251,5 +250,8 @@ class LomReader:
         element = etreepart.xpath(xpath, namespaces=self.ns)
         if element:
             for e in element:
-                data.append(e.text)
+                if e.text:
+                    data.append(e.text)
+                else:
+                    data.append("")
         return data
