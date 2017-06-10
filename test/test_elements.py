@@ -96,3 +96,14 @@ class ElementsTestCase(TestCase):
 
     def test_copyrightdescription(self):
         self.assertEqual(len(self.lomreader.lom["copyrightdescription"]),47)
+
+    def test_classification(self):
+        self.assertEqual(self.lomreader.lom["classification"][0]["purpose"]["source"], "LOMv1.0")
+        self.assertEqual(self.lomreader.lom["classification"][0]["purpose"]["value"], "idea")
+        self.assertEqual(self.lomreader.lom["classification"][0]["taxonpath"][0]["source"], "https://en.wikipedia.org/wiki/Category:Articles")
+        self.assertEqual(self.lomreader.lom["classification"][0]["taxonpath"][0]["taxon"][0]["id"], "Category:Games")
+        self.assertEqual(self.lomreader.lom["classification"][0]["taxonpath"][0]["taxon"][0]["entry"], "Games")
+        self.assertEqual(self.lomreader.lom["classification"][0]["taxonpath"][0]["taxon"][1]["id"], "Category:Space_MMORPGs")
+        self.assertEqual(self.lomreader.lom["classification"][0]["taxonpath"][0]["taxon"][1]["entry"], "Space MMORPGs")
+        self.assertEqual(self.lomreader.lom["classification"][0]["taxonpath"][0]["taxon"][2]["id"], "Category:Eve_Online")
+        self.assertEqual(self.lomreader.lom["classification"][0]["taxonpath"][0]["taxon"][2]["entry"], "Eve Online")

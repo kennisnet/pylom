@@ -180,4 +180,37 @@ END:VCARD</lom:vcard>
             <lom:langstring xml:lang="en">Creative Commons Attribution-ShareAlike License</lom:langstring>
         </lom:description>
     </lom:rights>
+    <lom:classification>
+        <lom:purpose>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">idea</lom:langstring>
+            </lom:value>
+        </lom:purpose>
+        <lom:taxonpath>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">https://en.wikipedia.org/wiki/Category:Articles</lom:langstring>
+            </lom:source>
+            <lom:taxon>
+                <lom:id>Category:Games</lom:id>
+                <lom:entry>
+                    <lom:langstring xml:lang="en">Games</lom:langstring>
+                </lom:entry>
+            </lom:taxon>
+            <lom:taxon>
+                <lom:id>Category:Space_MMORPGs</lom:id>
+                <lom:entry>
+                    <lom:langstring xml:lang="en">Space MMORPGs</lom:langstring>
+                </lom:entry>
+            </lom:taxon>
+            <lom:taxon>
+                <lom:id>Category:Eve_Online</lom:id>
+                <lom:entry>
+                    <lom:langstring xml:lang="en">Eve Online</lom:langstring>
+                </lom:entry>
+            </lom:taxon>
+        </lom:taxonpath>
+    </lom:classification>
 </lom:lom>

@@ -41,6 +41,7 @@ class LomReader:
         self.__setCost()
         self.__setCopyrightAndOtherRestrictions()
         self.__setCopyrightDescription()
+        self.__setClassificationElement()
 
 
     def setCustomEmptyLom(self,customdict):
@@ -77,8 +78,9 @@ class LomReader:
             "typicalagerange": [],
             "cost": "",
             "copyrightandotherrestrictions": "",
-            "copyrightdescription": ""
-                }
+            "copyrightdescription": "",
+            "classification": [] }
+
 
     def __setTitle(self):
         self.__setElement("/lom:lom/lom:general/lom:title/lom:langstring[@xml:lang='" + self.lang + "']", "title")
@@ -180,12 +182,8 @@ class LomReader:
             if isinstance(self.lom[lomkey], list):
                 for e in element:
                     data = {"catalog": "", "entry": ""}
-                    catalog = e.xpath("lom:catalog", namespaces=self.ns)
-                    if catalog:
-                        data["catalog"] = catalog[0].text
-                    entry = e.xpath("lom:entry/lom:langstring", namespaces=self.ns)
-                    if entry:
-                        data["entry"] = entry[0].text
+                    data["catalog"] = self.__getSingleElement(e,"lom:catalog")
+                    data["entry"] = self.__getSingleElement(e,"lom:entry/lom:langstring")
                     self.lom[lomkey].append(data)
             else:
                 raise LookupError("bad type definition in empty LOM")
@@ -200,25 +198,58 @@ class LomReader:
                 role = e.xpath("lom:role", namespaces=self.ns)
                 if role:
                     data["role"] = self.__getVocabularyElement(role[0])
-                entity = e.xpath("lom:centity/lom:vcard", namespaces=self.ns)
-                if entity:
-                    for ent in entity:
-                        data["entity"].append(ent.text)
-                date = e.xpath("lom:date/lom:datetime", namespaces=self.ns)
-                if date:
-                    data["date"] = date[0].text
+                data["entity"] = self.__getMultipleElement(e, "lom:centity/lom:vcard")
+                data["date"] = self.__getSingleElement(e, "lom:date/lom:datetime")
 
                 self.lom[lomkey].append(data)
+
+
+    def __setClassificationElement(self):
+        """ Parses the classification element. """
+        element = self.lomxml.xpath("/lom:lom/lom:classification", namespaces=self.ns)
+        if element:
+            for e in element:
+                data = {"purpose": {}, "taxonpath": []}
+                purpose = e.xpath("lom:purpose", namespaces=self.ns)
+                if purpose:
+                    data["purpose"] = self.__getVocabularyElement(purpose[0])
+                taxonpath = e.xpath("lom:taxonpath", namespaces=self.ns)
+                if taxonpath:
+                    for path in taxonpath:
+                        tp_data = {"source": "", "taxon": []}
+                        tp_data["source"] = self.__getSingleElement(path, "lom:source/lom:langstring")
+                        taxon = path.xpath("lom:taxon", namespaces=self.ns)
+                        if taxon:
+                            for t in taxon:
+                                t_data = {"id": "", "entry": ""}
+                                t_data["id"] = self.__getSingleElement(t, "lom:id")
+                                t_data["entry"] = self.__getSingleElement(t, "lom:entry/lom:langstring")
+                                tp_data["taxon"].append(t_data)
+                        data["taxonpath"].append(tp_data)
+
+                self.lom["classification"].append(data)
+
+
 
 
     def __getVocabularyElement(self,etreepart):
         """Just return a source-value dictionary based on an Etree element. """
         data = {"source": "", "value": ""}
-        source = etreepart.xpath("lom:source/lom:langstring", namespaces=self.ns)
-        if source:
-            data["source"] = source[0].text
-        value = etreepart.xpath("lom:value/lom:langstring", namespaces=self.ns)
-        if value:
-            data["value"] = value[0].text
+        data["source"] = self.__getSingleElement(etreepart,"lom:source/lom:langstring")
+        data["value"] = self.__getSingleElement(etreepart,"lom:value/lom:langstring")
+        return data
 
+    def __getSingleElement(self,etreepart,xpath):
+        element = etreepart.xpath(xpath, namespaces=self.ns)
+        if element:
+            return element[0].text
+        else:
+            return ""
+
+    def __getMultipleElement(self,etreepart,xpath):
+        data = []
+        element = etreepart.xpath(xpath, namespaces=self.ns)
+        if element:
+            for e in element:
+                data.append(e.text)
         return data
