@@ -30,6 +30,17 @@
         <lom:keyword>
             <lom:langstring xml:lang="en">Halloween War</lom:langstring>
         </lom:keyword>
+        <lom:coverage>
+            <lom:langstring xml:lang="en">YC 116</lom:langstring>
+        </lom:coverage>
+        <lom:structure>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">hierarchical</lom:langstring>
+            </lom:value>
+        </lom:structure>
         <lom:aggregationlevel>
             <lom:source>
                 <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
@@ -118,7 +129,14 @@ END:VCARD</lom:vcard>
     </lom:metametadata>
     <lom:technical>
         <lom:format>text/html</lom:format>
+        <lom:size>23450</lom:size>
         <lom:location>https://en.wikipedia.org/wiki/Bloodbath_of_B-R5RB</lom:location>
+        <lom:duration>
+            <lom:datetime>PT0H16M</lom:datetime>
+            <lom:description>
+                <lom:langstring xml:lang="en">technical reading time</lom:langstring>
+            </lom:description>
+        </lom:duration>
     </lom:technical>
     <lom:educational>
         <lom:learningresourcetype>

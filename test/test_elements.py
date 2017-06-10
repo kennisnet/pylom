@@ -26,6 +26,13 @@ class ElementsTestCase(TestCase):
         self.assertIn("Eve Online",self.lomreader.lom["keyword"])
         self.assertIn("Halloween War",self.lomreader.lom["keyword"])
 
+    def test_coverage(self):
+        self.assertIn("YC 116",self.lomreader.lom["coverage"])
+
+    def test_structure(self):
+        self.assertEqual(self.lomreader.lom["structure"]["source"],"LOMv1.0")
+        self.assertEqual(self.lomreader.lom["structure"]["value"],"hierarchical")
+
     def test_aggregationlevel(self):
         self.assertEqual(self.lomreader.lom["aggregationlevel"]["source"],"LOMv1.0")
         self.assertEqual(self.lomreader.lom["aggregationlevel"]["value"],"2")
@@ -66,8 +73,15 @@ class ElementsTestCase(TestCase):
     def test_format(self):
         self.assertIn("text/html", self.lomreader.lom["format"])
 
+    def test_size(self):
+        self.assertEqual(self.lomreader.lom["size"],"23450")
+
     def test_location(self):
         self.assertEqual(self.lomreader.lom["location"],"https://en.wikipedia.org/wiki/Bloodbath_of_B-R5RB")
+
+    def test_duration(self):
+        self.assertEqual(self.lomreader.lom["duration"]["datetime"],"PT0H16M")
+        self.assertEqual(self.lomreader.lom["duration"]["description"],"technical reading time")
 
     def test_learningresourcetype(self):
         self.assertEqual(self.lomreader.lom["learningresourcetype"][0]["source"], "LOMv1.0")

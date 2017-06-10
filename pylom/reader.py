@@ -24,6 +24,8 @@ class LomReader:
         self.__setLanguage()
         self.__setDescription()
         self.__setKeyword()
+        self.__setCoverage()
+        self.__setStructure()
         self.__setAggregationLevel()
         self.__setVersion()
         self.__setStatus()
@@ -33,7 +35,9 @@ class LomReader:
         self.__setMetadataScheme()
         self.__setMetaLanguage()
         self.__setFormat()
+        self.__setSize()
         self.__setLocation()
+        self.__setDuration()
         self.__setLearningResourceType()
         self.__setIntendedEndUserRole()
         self.__setContext()
@@ -62,6 +66,8 @@ class LomReader:
             "language": [],
             "description": [],
             "keyword": [],
+            "coverage": [],
+            "structure": "",
             "aggregationlevel": "",
             "version": "",
             "status": "",
@@ -71,7 +77,9 @@ class LomReader:
             "metadatascheme": [],
             "metalanguage": "",
             "format": [],
+            "size": "",
             "location": "",
+            "duration": "",
             "learningresourcetype": [],
             "intendedenduserrole": [],
             "context": [],
@@ -96,6 +104,12 @@ class LomReader:
 
     def __setKeyword(self):
         self.__setElement("/lom:lom/lom:general/lom:keyword/lom:langstring[@xml:lang='" + self.lang + "']", "keyword")
+
+    def __setCoverage(self):
+        self.__setElement("/lom:lom/lom:general/lom:coverage/lom:langstring[@xml:lang='" + self.lang + "']", "coverage")
+
+    def __setStructure(self):
+        self.__setVocabularyElement("/lom:lom/lom:general/lom:structure", "structure")
 
     def __setAggregationLevel(self):
         self.__setVocabularyElement("/lom:lom/lom:general/lom:aggregationlevel", "aggregationlevel")
@@ -124,8 +138,14 @@ class LomReader:
     def __setFormat(self):
         self.__setElement("/lom:lom/lom:technical/lom:format","format")
 
+    def __setSize(self):
+        self.__setElement("/lom:lom/lom:technical/lom:size","size")
+
     def __setLocation(self):
         self.__setElement("/lom:lom/lom:technical/lom:location","location")
+
+    def __setDuration(self):
+        self.__setDurationElement("/lom:lom/lom:technical/lom:duration","duration")
 
     def __setLearningResourceType(self):
         self.__setVocabularyElement("/lom:lom/lom:educational/lom:learningresourcetype", "learningresourcetype")
@@ -201,6 +221,12 @@ class LomReader:
                 self.lom[lomkey].append(data)
 
 
+    def __setDurationElement(self,xpath,lomkey):
+        element = self.lomxml.xpath(xpath, namespaces=self.ns)
+        if element:
+            self.lom[lomkey] = self.__getDurationElement(element[0])
+
+
     def __setClassificationElement(self):
         """ Parses the classification element. """
         element = self.lomxml.xpath("/lom:lom/lom:classification", namespaces=self.ns)
@@ -232,6 +258,13 @@ class LomReader:
         data = {"source": "", "value": ""}
         data["source"] = self.__getSingleElement(etreepart,"lom:source/lom:langstring")
         data["value"] = self.__getSingleElement(etreepart,"lom:value/lom:langstring")
+        return data
+
+    def __getDurationElement(self,etreepart):
+        """ Return a datetime-description dictionary based on an Etree element. """
+        data = {"datetime": "", "description": ""}
+        data["datetime"] = self.__getSingleElement(etreepart,"lom:datetime")
+        data["description"] = self.__getSingleElement(etreepart,"lom:description/lom:langstring[@xml:lang='" + self.lang + "']")
         return data
 
 
