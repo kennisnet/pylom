@@ -139,6 +139,14 @@ END:VCARD</lom:vcard>
         </lom:duration>
     </lom:technical>
     <lom:educational>
+        <lom:interactivitytype>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">expositive</lom:langstring>
+            </lom:value>
+        </lom:interactivitytype>
         <lom:learningresourcetype>
             <lom:source>
                 <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
@@ -147,6 +155,22 @@ END:VCARD</lom:vcard>
                 <lom:langstring xml:lang="x-none">narrative text</lom:langstring>
             </lom:value>
         </lom:learningresourcetype>
+       <lom:interactivitylevel>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">low</lom:langstring>
+            </lom:value>
+        </lom:interactivitylevel>
+       <lom:semanticdensity>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">high</lom:langstring>
+            </lom:value>
+        </lom:semanticdensity>
         <lom:intendedenduserrole>
             <lom:source>
                 <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
@@ -166,6 +190,24 @@ END:VCARD</lom:vcard>
         <lom:typicalagerange>
             <lom:langstring xml:lang="x-none">16-60</lom:langstring>
         </lom:typicalagerange>
+       <lom:difficulty>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">difficult</lom:langstring>
+            </lom:value>
+        </lom:difficulty>
+        <lom:typicallearningtime>
+            <lom:datetime>PT0H30M</lom:datetime>
+            <lom:description>
+                <lom:langstring xml:lang="en">understanding reading time</lom:langstring>
+            </lom:description>
+        </lom:typicallearningtime>
+        <lom:description>
+            <lom:langstring xml:lang="en">for individual reading</lom:langstring>
+        </lom:description>
+        <lom:language>en</lom:language>
     </lom:educational>
     <lom:educational>
         <lom:context>

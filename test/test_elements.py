@@ -84,8 +84,14 @@ class ElementsTestCase(TestCase):
         self.assertEqual(self.lomreader.lom["duration"]["description"],"technical reading time")
 
     def test_educational(self):
+        self.assertEqual(self.lomreader.lom["educational"][0]["interactivitytype"]["source"], "LOMv1.0")
+        self.assertEqual(self.lomreader.lom["educational"][0]["interactivitytype"]["value"], "expositive")
         self.assertEqual(self.lomreader.lom["educational"][0]["learningresourcetype"][0]["source"], "LOMv1.0")
         self.assertEqual(self.lomreader.lom["educational"][0]["learningresourcetype"][0]["value"], "narrative text")
+        self.assertEqual(self.lomreader.lom["educational"][0]["interactivitylevel"]["source"], "LOMv1.0")
+        self.assertEqual(self.lomreader.lom["educational"][0]["interactivitylevel"]["value"], "low")
+        self.assertEqual(self.lomreader.lom["educational"][0]["semanticdensity"]["source"], "LOMv1.0")
+        self.assertEqual(self.lomreader.lom["educational"][0]["semanticdensity"]["value"], "high")
         self.assertEqual(self.lomreader.lom["educational"][0]["intendedenduserrole"][0]["source"], "LOMv1.0")
         self.assertEqual(self.lomreader.lom["educational"][0]["intendedenduserrole"][0]["value"], "learner")
         self.assertEqual(self.lomreader.lom["educational"][0]["context"][0]["source"], "LOMv1.0")
@@ -93,6 +99,13 @@ class ElementsTestCase(TestCase):
         self.assertEqual(self.lomreader.lom["educational"][1]["context"][0]["source"], "LOMv1.0")
         self.assertEqual(self.lomreader.lom["educational"][1]["context"][0]["value"], "higher education")
         self.assertIn("16-60", self.lomreader.lom["educational"][0]["typicalagerange"])
+        self.assertEqual(self.lomreader.lom["educational"][0]["difficulty"]["source"], "LOMv1.0")
+        self.assertEqual(self.lomreader.lom["educational"][0]["difficulty"]["value"], "difficult")
+        self.assertEqual(self.lomreader.lom["educational"][0]["typicallearningtime"]["datetime"],"PT0H30M")
+        self.assertEqual(self.lomreader.lom["educational"][0]["typicallearningtime"]["description"],"understanding reading time")
+        self.assertEqual(self.lomreader.lom["educational"][0]["typicallearningtime"]["description"],"understanding reading time")
+        self.assertEqual(self.lomreader.lom["educational"][0]["description"][0],"for individual reading")
+        self.assertEqual(self.lomreader.lom["educational"][0]["language"][0],"en")
 
     def test_cost(self):
         self.assertEqual(self.lomreader.lom["cost"]["source"],"LOMv1.0")

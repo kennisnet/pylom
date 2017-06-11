@@ -123,10 +123,38 @@ class LomReader:
         self.__setElement("/lom:lom/lom:technical/lom:location","location")
 
     def __setFieldDuration(self):
-        self.__setDurationElement("/lom:lom/lom:technical/lom:duration","duration")
+        self.lom["duration"] = self.__getDurationElement(self.lomxml,"/lom:lom/lom:technical/lom:duration")
 
     def __setFieldEducational(self):
-        self.__setEducationalElement()
+        """ Parses the educational element. """
+        element = self.lomxml.xpath("/lom:lom/lom:educational", namespaces=self.ns)
+        if element:
+            for e in element:
+                data = {
+                    "interactivitytype": "",
+                    "learningresourcetype": [],
+                    "interactivitylevel": "",
+                    "semanticdensity": "",
+                    "intendedenduserrole": [],
+                    "context": [],
+                    "typicalagerange": [],
+                    "difficulty": "",
+                    "typicallearningtime": "",
+                    "description": [],
+                    "language": [] }
+                data["interactivitytype"] = self.__getSingleVocabularyElement(e,"lom:interactivitytype")
+                data["learningresourcetype"] = self.__getMultipleVocabularyElement(e,"lom:learningresourcetype")
+                data["interactivitylevel"] = self.__getSingleVocabularyElement(e,"lom:interactivitylevel")
+                data["semanticdensity"] = self.__getSingleVocabularyElement(e,"lom:semanticdensity")
+                data["intendedenduserrole"] = self.__getMultipleVocabularyElement(e,"lom:intendedenduserrole")
+                data["context"] = self.__getMultipleVocabularyElement(e,"lom:context")
+                data["typicalagerange"] = self.__getMultipleElement(e,"lom:typicalagerange/lom:langstring")
+                data["difficulty"] = self.__getSingleVocabularyElement(e,"lom:difficulty")
+                data["typicallearningtime"] = self.__getDurationElement(e,"lom:typicallearningtime")
+                data["description"] = self.__getMultipleElement(e,"lom:description/lom:langstring[@xml:lang='" + self.lang + "']")
+                data["language"] = self.__getMultipleElement(e,"lom:language")
+
+                self.lom["educational"].append(data)
 
     def __setFieldCost(self):
         self.__setVocabularyElement("/lom:lom/lom:rights/lom:cost", "cost")
@@ -138,10 +166,45 @@ class LomReader:
         self.__setElement("/lom:lom/lom:rights/lom:description/lom:langstring[@xml:lang='" + self.lang + "']", "copyrightdescription")
 
     def __setFieldRelation(self):
-        self.__setRelationElement()
+        """ Parses the relation element. """
+        element = self.lomxml.xpath("/lom:lom/lom:relation", namespaces=self.ns)
+        if element:
+            for e in element:
+                data = {"kind": "", "resource": ""}
+                data["kind"] = self.__getSingleVocabularyElement(e,"lom:kind")
+                resource = e.xpath("lom:resource", namespaces=self.ns)
+                if resource:
+                    res_data = {"description": [], "catalogentry": []}
+                    res_data["description"] = self.__getMultipleElement(resource[0],"lom:description/lom:langstring[@xml:lang='" + self.lang + "']")
+                    catalogentry = resource[0].xpath("lom:catalogentry", namespaces=self.ns)
+                    if catalogentry:
+                        res_data["catalogentry"] = self.__getCatalogEntryElement(catalogentry)
+                    data["resource"] = res_data
+
+                self.lom["relation"].append(data)
 
     def __setFieldClassification(self):
-        self.__setClassificationElement()
+        """ Parses the classification element. """
+        element = self.lomxml.xpath("/lom:lom/lom:classification", namespaces=self.ns)
+        if element:
+            for e in element:
+                data = {"purpose": "", "taxonpath": []}
+                data["purpose"] = self.__getSingleVocabularyElement(e,"lom:purpose")
+                taxonpath = e.xpath("lom:taxonpath", namespaces=self.ns)
+                if taxonpath:
+                    for path in taxonpath:
+                        tp_data = {"source": "", "taxon": []}
+                        tp_data["source"] = self.__getSingleElement(path, "lom:source/lom:langstring")
+                        taxon = path.xpath("lom:taxon", namespaces=self.ns)
+                        if taxon:
+                            for t in taxon:
+                                t_data = {"id": "", "entry": ""}
+                                t_data["id"] = self.__getSingleElement(t, "lom:id")
+                                t_data["entry"] = self.__getSingleElement(t, "lom:entry/lom:langstring")
+                                tp_data["taxon"].append(t_data)
+                        data["taxonpath"].append(tp_data)
+
+                self.lom["classification"].append(data)
 
 
     def __setElement(self,xpath,lomkey):
@@ -184,78 +247,15 @@ class LomReader:
                 self.lom[lomkey].append(data)
 
 
-    def __setDurationElement(self,xpath,lomkey):
-        element = self.lomxml.xpath(xpath, namespaces=self.ns)
+    def __getDurationElement(self,etreepart,xpath):
+        element = etreepart.xpath(xpath, namespaces=self.ns)
         if element:
-            self.lom[lomkey] = self.__getDurationElement(element[0])
-
-
-    def __setEducationalElement(self):
-        """ Parses the educational element. """
-        element = self.lomxml.xpath("/lom:lom/lom:educational", namespaces=self.ns)
-        if element:
-            for e in element:
-                data = {
-                    "learningresourcetype": [],
-                    "intendedenduserrole": [],
-                    "context": [],
-                    "typicalagerange": [] }
-                data["learningresourcetype"] = self.__getMultipleVocabularyElement(e,"lom:learningresourcetype")
-                data["intendedenduserrole"] = self.__getMultipleVocabularyElement(e,"lom:intendedenduserrole")
-                data["context"] = self.__getMultipleVocabularyElement(e,"lom:context")
-                data["typicalagerange"] = self.__getMultipleElement(e,"lom:typicalagerange/lom:langstring")
-                self.lom["educational"].append(data)
-
-
-    def __setRelationElement(self):
-        """ Parses the relation element. """
-        element = self.lomxml.xpath("/lom:lom/lom:relation", namespaces=self.ns)
-        if element:
-            for e in element:
-                data = {"kind": "", "resource": ""}
-                data["kind"] = self.__getSingleVocabularyElement(e,"lom:kind")
-                resource = e.xpath("lom:resource", namespaces=self.ns)
-                if resource:
-                    res_data = {"description": [], "catalogentry": []}
-                    res_data["description"] = self.__getMultipleElement(resource[0],"lom:description/lom:langstring[@xml:lang='" + self.lang + "']")
-                    catalogentry = resource[0].xpath("lom:catalogentry", namespaces=self.ns)
-                    if catalogentry:
-                        res_data["catalogentry"] = self.__getCatalogEntryElement(catalogentry)
-                    data["resource"] = res_data
-
-                self.lom["relation"].append(data)
-
-
-    def __setClassificationElement(self):
-        """ Parses the classification element. """
-        element = self.lomxml.xpath("/lom:lom/lom:classification", namespaces=self.ns)
-        if element:
-            for e in element:
-                data = {"purpose": "", "taxonpath": []}
-                data["purpose"] = self.__getSingleVocabularyElement(e,"lom:purpose")
-                taxonpath = e.xpath("lom:taxonpath", namespaces=self.ns)
-                if taxonpath:
-                    for path in taxonpath:
-                        tp_data = {"source": "", "taxon": []}
-                        tp_data["source"] = self.__getSingleElement(path, "lom:source/lom:langstring")
-                        taxon = path.xpath("lom:taxon", namespaces=self.ns)
-                        if taxon:
-                            for t in taxon:
-                                t_data = {"id": "", "entry": ""}
-                                t_data["id"] = self.__getSingleElement(t, "lom:id")
-                                t_data["entry"] = self.__getSingleElement(t, "lom:entry/lom:langstring")
-                                tp_data["taxon"].append(t_data)
-                        data["taxonpath"].append(tp_data)
-
-                self.lom["classification"].append(data)
-
-
-    def __getDurationElement(self,etreepart):
-        """ Return a datetime-description dictionary based on an Etree element. """
-        data = {"datetime": "", "description": ""}
-        data["datetime"] = self.__getSingleElement(etreepart,"lom:datetime")
-        data["description"] = self.__getSingleElement(etreepart,"lom:description/lom:langstring[@xml:lang='" + self.lang + "']")
-        return data
+            data = {"datetime": "", "description": ""}
+            data["datetime"] = self.__getSingleElement(element[0],"lom:datetime")
+            data["description"] = self.__getSingleElement(element[0],"lom:description/lom:langstring[@xml:lang='" + self.lang + "']")
+            return data
+        else:
+            return ""
 
     def __getCatalogEntryElement(self,etreepart):
         """ Return all catalogentry elements as a list of dictionaries. """
