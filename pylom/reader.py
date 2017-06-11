@@ -19,34 +19,10 @@ class LomReader:
 
 
     def parseFull(self):
-        self.__setTitle()
-        self.__setCatalogEntry()
-        self.__setLanguage()
-        self.__setDescription()
-        self.__setKeyword()
-        self.__setCoverage()
-        self.__setStructure()
-        self.__setAggregationLevel()
-        self.__setVersion()
-        self.__setStatus()
-        self.__setContribute()
-        self.__setMetaCatalogEntry()
-        self.__setMetaContribute()
-        self.__setMetadataScheme()
-        self.__setMetaLanguage()
-        self.__setFormat()
-        self.__setSize()
-        self.__setLocation()
-        self.__setDuration()
-        self.__setLearningResourceType()
-        self.__setIntendedEndUserRole()
-        self.__setContext()
-        self.__setTypicalAgeRange()
-        self.__setCost()
-        self.__setCopyrightAndOtherRestrictions()
-        self.__setCopyrightDescription()
-        self.__setRelationElement()
-        self.__setClassificationElement()
+        """ Parses using all __setField* methods. """
+        for attribute in dir(self):
+            if attribute[0:20] == "_LomReader__setField":
+                getattr(self,attribute)()
 
 
     def setCustomEmptyLom(self,customdict):
@@ -92,83 +68,89 @@ class LomReader:
             "classification": [] }
 
 
-    def __setTitle(self):
+    def __setFieldTitle(self):
         self.__setElement("/lom:lom/lom:general/lom:title/lom:langstring[@xml:lang='" + self.lang + "']", "title")
 
-    def __setCatalogEntry(self):
+    def __setFieldCatalogEntry(self):
         self.__setCatalogEntryElement("/lom:lom/lom:general/lom:catalogentry", "catalogentry")
 
-    def __setLanguage(self):
+    def __setFieldLanguage(self):
         self.__setElement("/lom:lom/lom:general/lom:language","language")
 
-    def __setDescription(self):
+    def __setFieldDescription(self):
         self.__setElement("/lom:lom/lom:general/lom:description/lom:langstring[@xml:lang='" + self.lang + "']", "description")
 
-    def __setKeyword(self):
+    def __setFieldKeyword(self):
         self.__setElement("/lom:lom/lom:general/lom:keyword/lom:langstring[@xml:lang='" + self.lang + "']", "keyword")
 
-    def __setCoverage(self):
+    def __setFieldCoverage(self):
         self.__setElement("/lom:lom/lom:general/lom:coverage/lom:langstring[@xml:lang='" + self.lang + "']", "coverage")
 
-    def __setStructure(self):
+    def __setFieldStructure(self):
         self.__setVocabularyElement("/lom:lom/lom:general/lom:structure", "structure")
 
-    def __setAggregationLevel(self):
+    def __setFieldAggregationLevel(self):
         self.__setVocabularyElement("/lom:lom/lom:general/lom:aggregationlevel", "aggregationlevel")
 
-    def __setVersion(self):
+    def __setFieldVersion(self):
         self.__setElement("/lom:lom/lom:lifecycle/lom:version/lom:langstring","version")
 
-    def __setStatus(self):
+    def __setFieldStatus(self):
         self.__setVocabularyElement("/lom:lom/lom:lifecycle/lom:status", "status")
 
-    def __setContribute(self):
+    def __setFieldContribute(self):
         self.__setContributeElement("/lom:lom/lom:lifecycle/lom:contribute", "contribute")
 
-    def __setMetaCatalogEntry(self):
+    def __setFieldMetaCatalogEntry(self):
         self.__setCatalogEntryElement("/lom:lom/lom:metametadata/lom:catalogentry", "metacatalogentry")
 
-    def __setMetaContribute(self):
+    def __setFieldMetaContribute(self):
         self.__setContributeElement("/lom:lom/lom:metametadata/lom:contribute", "metacontribute")
 
-    def __setMetadataScheme(self):
+    def __setFieldMetadataScheme(self):
         self.__setElement("/lom:lom/lom:metametadata/lom:metadatascheme","metadatascheme")
 
-    def __setMetaLanguage(self):
+    def __setFieldMetaLanguage(self):
         self.__setElement("/lom:lom/lom:metametadata/lom:language","metalanguage")
 
-    def __setFormat(self):
+    def __setFieldFormat(self):
         self.__setElement("/lom:lom/lom:technical/lom:format","format")
 
-    def __setSize(self):
+    def __setFieldSize(self):
         self.__setElement("/lom:lom/lom:technical/lom:size","size")
 
-    def __setLocation(self):
+    def __setFieldLocation(self):
         self.__setElement("/lom:lom/lom:technical/lom:location","location")
 
-    def __setDuration(self):
+    def __setFieldDuration(self):
         self.__setDurationElement("/lom:lom/lom:technical/lom:duration","duration")
 
-    def __setLearningResourceType(self):
+    def __setFieldLearningResourceType(self):
         self.__setVocabularyElement("/lom:lom/lom:educational/lom:learningresourcetype", "learningresourcetype")
 
-    def __setIntendedEndUserRole(self):
+    def __setFieldIntendedEndUserRole(self):
         self.__setVocabularyElement("/lom:lom/lom:educational/lom:intendedenduserrole", "intendedenduserrole")
 
-    def __setContext(self):
+    def __setFieldContext(self):
         self.__setVocabularyElement("/lom:lom/lom:educational/lom:context", "context")
 
-    def __setTypicalAgeRange(self):
+    def __setFieldTypicalAgeRange(self):
         self.__setElement("/lom:lom/lom:educational/lom:typicalagerange/lom:langstring", "typicalagerange")
 
-    def __setCost(self):
+    def __setFieldCost(self):
         self.__setVocabularyElement("/lom:lom/lom:rights/lom:cost", "cost")
 
-    def __setCopyrightAndOtherRestrictions(self):
+    def __setFieldCopyrightAndOtherRestrictions(self):
         self.__setVocabularyElement("/lom:lom/lom:rights/lom:copyrightandotherrestrictions", "copyrightandotherrestrictions")
 
-    def __setCopyrightDescription(self):
+    def __setFieldCopyrightDescription(self):
         self.__setElement("/lom:lom/lom:rights/lom:description/lom:langstring[@xml:lang='" + self.lang + "']", "copyrightdescription")
+
+    def __setFieldRelation(self):
+        self.__setRelationElement()
+
+    def __setFieldClassification(self):
+        self.__setClassificationElement()
 
 
     def __setElement(self,xpath,lomkey):
