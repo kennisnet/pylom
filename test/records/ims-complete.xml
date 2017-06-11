@@ -198,6 +198,54 @@ END:VCARD</lom:vcard>
             <lom:langstring xml:lang="en">Creative Commons Attribution-ShareAlike License</lom:langstring>
         </lom:description>
     </lom:rights>
+    <lom:relation>
+        <lom:kind>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">references</lom:langstring>
+            </lom:value>
+        </lom:kind>
+        <lom:resource>
+            <lom:description>
+                <lom:langstring xml:lang="en">Wikipedia article references</lom:langstring>
+            </lom:description>
+            <lom:catalogentry>
+                <lom:catalog>URI</lom:catalog>
+                <lom:entry>
+                    <lom:langstring>https://www.wired.com/gamelife/2014/02/eve-online-battle-of-b-r/</lom:langstring>
+                </lom:entry>
+            </lom:catalogentry>
+            <lom:catalogentry>
+                <lom:catalog>URI</lom:catalog>
+                <lom:entry>
+                    <lom:langstring>http://www.polygon.com/2014/1/30/5360208/Eve-Onlines-Bloodbath</lom:langstring>
+                </lom:entry>
+            </lom:catalogentry>
+        </lom:resource>
+    </lom:relation>
+    <lom:relation>
+        <lom:kind>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">isreferencedby</lom:langstring>
+            </lom:value>
+        </lom:kind>
+        <lom:resource>
+            <lom:description>
+                <lom:langstring xml:lang="en">Wikipedia pages linking to this</lom:langstring>
+            </lom:description>
+            <lom:catalogentry>
+                <lom:catalog>URI</lom:catalog>
+                <lom:entry>
+                    <lom:langstring>https://www.wikidata.org/wiki/Q336177</lom:langstring>
+                </lom:entry>
+            </lom:catalogentry>
+        </lom:resource>
+    </lom:relation>
     <lom:classification>
         <lom:purpose>
             <lom:source>

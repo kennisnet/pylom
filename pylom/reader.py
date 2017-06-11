@@ -45,6 +45,7 @@ class LomReader:
         self.__setCost()
         self.__setCopyrightAndOtherRestrictions()
         self.__setCopyrightDescription()
+        self.__setRelationElement()
         self.__setClassificationElement()
 
 
@@ -87,6 +88,7 @@ class LomReader:
             "cost": "",
             "copyrightandotherrestrictions": "",
             "copyrightdescription": "",
+            "relation": [],
             "classification": [] }
 
 
@@ -196,14 +198,7 @@ class LomReader:
         """ Sets the catalogs and entries from the xpath in the specified lomkey. """
         element = self.lomxml.xpath(xpath, namespaces=self.ns)
         if element:
-            if isinstance(self.lom[lomkey], list):
-                for e in element:
-                    data = {"catalog": "", "entry": ""}
-                    data["catalog"] = self.__getSingleElement(e,"lom:catalog")
-                    data["entry"] = self.__getSingleElement(e,"lom:entry/lom:langstring")
-                    self.lom[lomkey].append(data)
-            else:
-                raise LookupError("bad type definition in empty LOM")
+            self.lom[lomkey] = self.__getCatalogEntryElement(element)
 
 
     def __setContributeElement(self,xpath,lomkey):
@@ -225,6 +220,27 @@ class LomReader:
         element = self.lomxml.xpath(xpath, namespaces=self.ns)
         if element:
             self.lom[lomkey] = self.__getDurationElement(element[0])
+
+
+    def __setRelationElement(self):
+        """ Parses the relation element. """
+        element = self.lomxml.xpath("/lom:lom/lom:relation", namespaces=self.ns)
+        if element:
+            for e in element:
+                data = {"kind": {}, "resource": {}}
+                kind = e.xpath("lom:kind", namespaces=self.ns)
+                if kind:
+                    data["kind"] = self.__getVocabularyElement(kind[0])
+                resource = e.xpath("lom:resource", namespaces=self.ns)
+                if resource:
+                    res_data = {"description": [], "catalogentry": []}
+                    res_data["description"] = self.__getMultipleElement(resource[0],"lom:description/lom:langstring[@xml:lang='" + self.lang + "']")
+                    catalogentry = resource[0].xpath("lom:catalogentry", namespaces=self.ns)
+                    if catalogentry:
+                        res_data["catalogentry"] = self.__getCatalogEntryElement(catalogentry)
+                    data["resource"] = res_data
+
+                self.lom["relation"].append(data)
 
 
     def __setClassificationElement(self):
@@ -266,6 +282,16 @@ class LomReader:
         data["datetime"] = self.__getSingleElement(etreepart,"lom:datetime")
         data["description"] = self.__getSingleElement(etreepart,"lom:description/lom:langstring[@xml:lang='" + self.lang + "']")
         return data
+
+    def __getCatalogEntryElement(self,etreepart):
+        """ Return all catalogentry elements as a list of dictionaries. """
+        catalogentries = []
+        for e in etreepart:
+            data = {"catalog": "", "entry": ""}
+            data["catalog"] = self.__getSingleElement(e,"lom:catalog")
+            data["entry"] = self.__getSingleElement(e,"lom:entry/lom:langstring")
+            catalogentries.append(data)
+        return catalogentries
 
 
     def __getSingleElement(self,etreepart,xpath):

@@ -111,6 +111,20 @@ class ElementsTestCase(TestCase):
     def test_copyrightdescription(self):
         self.assertEqual(len(self.lomreader.lom["copyrightdescription"]),47)
 
+    def test_relation(self):
+        self.assertEqual(self.lomreader.lom["relation"][0]["kind"]["source"], "LOMv1.0")
+        self.assertEqual(self.lomreader.lom["relation"][0]["kind"]["value"], "references")
+        self.assertEqual(self.lomreader.lom["relation"][0]["resource"]["description"][0], "Wikipedia article references")
+        self.assertEqual(self.lomreader.lom["relation"][0]["resource"]["catalogentry"][0]["catalog"], "URI")
+        self.assertEqual(self.lomreader.lom["relation"][0]["resource"]["catalogentry"][0]["entry"], "https://www.wired.com/gamelife/2014/02/eve-online-battle-of-b-r/")
+        self.assertEqual(self.lomreader.lom["relation"][0]["resource"]["catalogentry"][1]["catalog"], "URI")
+        self.assertEqual(self.lomreader.lom["relation"][0]["resource"]["catalogentry"][1]["entry"], "http://www.polygon.com/2014/1/30/5360208/Eve-Onlines-Bloodbath")
+        self.assertEqual(self.lomreader.lom["relation"][1]["kind"]["source"], "LOMv1.0")
+        self.assertEqual(self.lomreader.lom["relation"][1]["kind"]["value"], "isreferencedby")
+        self.assertEqual(self.lomreader.lom["relation"][1]["resource"]["description"][0], "Wikipedia pages linking to this")
+        self.assertEqual(self.lomreader.lom["relation"][1]["resource"]["catalogentry"][0]["catalog"], "URI")
+        self.assertEqual(self.lomreader.lom["relation"][1]["resource"]["catalogentry"][0]["entry"], "https://www.wikidata.org/wiki/Q336177")
+
     def test_classification(self):
         self.assertEqual(self.lomreader.lom["classification"][0]["purpose"]["source"], "LOMv1.0")
         self.assertEqual(self.lomreader.lom["classification"][0]["purpose"]["value"], "idea")
