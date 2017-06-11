@@ -6,5 +6,5 @@ class InitTestCase(TestCase):
         self.lomreader = LomReader()
 
     def test_illegal_path(self):
-        with self.assertRaises(OSError):
+        with self.assertRaises(RuntimeError):
             self.lomreader.parsePath("nopath")

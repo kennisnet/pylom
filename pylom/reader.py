@@ -12,7 +12,10 @@ class LomReader:
 
     def parsePath(self,path):
         """ Parse LOM XML based on path. """
-        self.lomxml = etree.parse(path)
+        try:
+            self.lomxml = etree.parse(path)
+        except Exception as e:
+            raise RuntimeError(e)
 
         if self.lomxml:
             self.parseFull()
