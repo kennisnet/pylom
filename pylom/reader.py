@@ -60,10 +60,7 @@ class LomReader:
             "size": "",
             "location": "",
             "duration": "",
-            "learningresourcetype": [],
-            "intendedenduserrole": [],
-            "context": [],
-            "typicalagerange": [],
+            "educational": [],
             "cost": "",
             "copyrightandotherrestrictions": "",
             "copyrightdescription": "",
@@ -128,17 +125,8 @@ class LomReader:
     def __setFieldDuration(self):
         self.__setDurationElement("/lom:lom/lom:technical/lom:duration","duration")
 
-    def __setFieldLearningResourceType(self):
-        self.__setVocabularyElement("/lom:lom/lom:educational/lom:learningresourcetype", "learningresourcetype")
-
-    def __setFieldIntendedEndUserRole(self):
-        self.__setVocabularyElement("/lom:lom/lom:educational/lom:intendedenduserrole", "intendedenduserrole")
-
-    def __setFieldContext(self):
-        self.__setVocabularyElement("/lom:lom/lom:educational/lom:context", "context")
-
-    def __setFieldTypicalAgeRange(self):
-        self.__setElement("/lom:lom/lom:educational/lom:typicalagerange/lom:langstring", "typicalagerange")
+    def __setFieldEducational(self):
+        self.__setEducationalElement()
 
     def __setFieldCost(self):
         self.__setVocabularyElement("/lom:lom/lom:rights/lom:cost", "cost")
@@ -168,15 +156,12 @@ class LomReader:
 
     def __setVocabularyElement(self,xpath,lomkey):
         """ Sets the vocabulary source and value from the xpath in the specified lomkey. """
-        element = self.lomxml.xpath(xpath, namespaces=self.ns)
-        if element:
-            if isinstance(self.lom[lomkey], str):
-                self.lom[lomkey] = self.__getVocabularyElement(element[0])
-            elif isinstance(self.lom[lomkey], list):
-                for e in element:
-                    self.lom[lomkey].append(self.__getVocabularyElement(e))
-            else:
-                raise LookupError("bad type definition in empty LOM")
+        if isinstance(self.lom[lomkey], str):
+            self.lom[lomkey] = self.__getSingleVocabularyElement(self.lomxml,xpath)
+        elif isinstance(self.lom[lomkey], list):
+            self.lom[lomkey] = self.__getMultipleVocabularyElement(self.lomxml,xpath)
+        else:
+            raise LookupError("bad type definition in empty LOM")
 
 
     def __setCatalogEntryElement(self,xpath,lomkey):
@@ -191,10 +176,8 @@ class LomReader:
         element = self.lomxml.xpath(xpath, namespaces=self.ns)
         if element:
             for e in element:
-                data = {"role": {}, "entity": [], "date": ""}
-                role = e.xpath("lom:role", namespaces=self.ns)
-                if role:
-                    data["role"] = self.__getVocabularyElement(role[0])
+                data = {"role": "", "entity": [], "date": ""}
+                data["role"] = self.__getSingleVocabularyElement(e,"lom:role")
                 data["entity"] = self.__getMultipleElement(e, "lom:centity/lom:vcard")
                 data["date"] = self.__getSingleElement(e, "lom:date/lom:datetime")
 
@@ -207,15 +190,30 @@ class LomReader:
             self.lom[lomkey] = self.__getDurationElement(element[0])
 
 
+    def __setEducationalElement(self):
+        """ Parses the educational element. """
+        element = self.lomxml.xpath("/lom:lom/lom:educational", namespaces=self.ns)
+        if element:
+            for e in element:
+                data = {
+                    "learningresourcetype": [],
+                    "intendedenduserrole": [],
+                    "context": [],
+                    "typicalagerange": [] }
+                data["learningresourcetype"] = self.__getMultipleVocabularyElement(e,"lom:learningresourcetype")
+                data["intendedenduserrole"] = self.__getMultipleVocabularyElement(e,"lom:intendedenduserrole")
+                data["context"] = self.__getMultipleVocabularyElement(e,"lom:context")
+                data["typicalagerange"] = self.__getMultipleElement(e,"lom:typicalagerange/lom:langstring")
+                self.lom["educational"].append(data)
+
+
     def __setRelationElement(self):
         """ Parses the relation element. """
         element = self.lomxml.xpath("/lom:lom/lom:relation", namespaces=self.ns)
         if element:
             for e in element:
-                data = {"kind": {}, "resource": {}}
-                kind = e.xpath("lom:kind", namespaces=self.ns)
-                if kind:
-                    data["kind"] = self.__getVocabularyElement(kind[0])
+                data = {"kind": "", "resource": ""}
+                data["kind"] = self.__getSingleVocabularyElement(e,"lom:kind")
                 resource = e.xpath("lom:resource", namespaces=self.ns)
                 if resource:
                     res_data = {"description": [], "catalogentry": []}
@@ -233,10 +231,8 @@ class LomReader:
         element = self.lomxml.xpath("/lom:lom/lom:classification", namespaces=self.ns)
         if element:
             for e in element:
-                data = {"purpose": {}, "taxonpath": []}
-                purpose = e.xpath("lom:purpose", namespaces=self.ns)
-                if purpose:
-                    data["purpose"] = self.__getVocabularyElement(purpose[0])
+                data = {"purpose": "", "taxonpath": []}
+                data["purpose"] = self.__getSingleVocabularyElement(e,"lom:purpose")
                 taxonpath = e.xpath("lom:taxonpath", namespaces=self.ns)
                 if taxonpath:
                     for path in taxonpath:
@@ -253,13 +249,6 @@ class LomReader:
 
                 self.lom["classification"].append(data)
 
-
-    def __getVocabularyElement(self,etreepart):
-        """Just return a source-value dictionary based on an Etree element. """
-        data = {"source": "", "value": ""}
-        data["source"] = self.__getSingleElement(etreepart,"lom:source/lom:langstring")
-        data["value"] = self.__getSingleElement(etreepart,"lom:value/lom:langstring")
-        return data
 
     def __getDurationElement(self,etreepart):
         """ Return a datetime-description dictionary based on an Etree element. """
@@ -278,6 +267,27 @@ class LomReader:
             catalogentries.append(data)
         return catalogentries
 
+
+    def __getSingleVocabularyElement(self,etreepart,xpath):
+        element = etreepart.xpath(xpath, namespaces=self.ns)
+        if element:
+            data = {"source": "", "value": ""}
+            data["source"] = self.__getSingleElement(element[0],"lom:source/lom:langstring")
+            data["value"] = self.__getSingleElement(element[0],"lom:value/lom:langstring")
+            return data
+        else:
+            return ""
+
+    def __getMultipleVocabularyElement(self,etreepart,xpath):
+        data = []
+        element = etreepart.xpath(xpath, namespaces=self.ns)
+        if element:
+            for e in element:
+                vocab = {"source": "", "value": ""}
+                vocab["source"] = self.__getSingleElement(e,"lom:source/lom:langstring")
+                vocab["value"] = self.__getSingleElement(e,"lom:value/lom:langstring")
+                data.append(vocab)
+        return data
 
     def __getSingleElement(self,etreepart,xpath):
         element = etreepart.xpath(xpath, namespaces=self.ns)
