@@ -242,7 +242,7 @@ class LomReader:
                 data = {"role": "", "entity": [], "date": ""}
                 data["role"] = self.__getSingleVocabularyElement(e,"lom:role")
                 data["entity"] = self.__getMultipleElement(e, "lom:centity/lom:vcard")
-                data["date"] = self.__getSingleElement(e, "lom:date/lom:datetime")
+                data["date"] = self.__getDurationElement(e, "lom:date")
 
                 self.lom[lomkey].append(data)
 
