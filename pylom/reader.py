@@ -1,31 +1,25 @@
 # -*- coding: utf-8 -*-
 
+from pylom.lom import Lom
 from lxml import etree
 
-class LomReader:
+class LomReader(Lom):
     def __init__(self,language="en"):
-        self.lomxml = None
+        Lom.__init__(self,language)
         self.ns = {'lom': 'http://www.imsglobal.org/xsd/imsmd_v1p2'}
-        self.lang = language
         self.__setEmptyLom()
+        self.fieldset = []
 
 
-    def parsePath(self,path):
+    def parsePath(self,path,fieldset=[]):
         """ Parse LOM XML based on path. """
         try:
             self.lomxml = etree.parse(path)
         except Exception as e:
             raise RuntimeError(e)
 
-        if self.lomxml:
-            self.parseFull()
-
-
-    def parseFull(self):
-        """ Parses using all __setField* methods. """
-        for attribute in dir(self):
-            if attribute[0:20] == "_LomReader__setField":
-                getattr(self,attribute)()
+        self.fieldset = fieldset
+        self.__parseLom()
 
 
     def setCustomEmptyLom(self,customdict):
@@ -35,6 +29,29 @@ class LomReader:
             self.lom = customdict
         else:
             raise TypeError("custom empty LOM should be a dictionary")
+
+
+    def __parseLom(self):
+        if not self.lomxml:
+            raise RuntimeError("there is no LOM Etree object")
+
+        if self.fieldset:
+            self.__parseFieldset()
+        else:
+            self.__parseFull()
+
+    def __parseFull(self):
+        """ Parses using all __setField* methods. """
+        for fieldkey in self.fmethods:
+            attribute = "_" + self.__class__.__name__ + self.fmethods[fieldkey]
+            getattr(self,attribute)()
+
+    def __parseFieldset(self):
+        """ Parses using only the keys provided in fieldset. """
+        for fieldkey in self.fmethods:
+            if fieldkey in self.fieldset:
+                attribute = "_" + self.__class__.__name__ + self.fmethods[fieldkey]
+                getattr(self,attribute)()
 
 
     def __setEmptyLom(self):
