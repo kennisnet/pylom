@@ -22,6 +22,17 @@ class LomReader(Lom):
         self.__parseLom()
 
 
+    def parseString(self,lomstring,fieldset=[]):
+        """ Parse LOM XML based on string. """
+        try:
+            self.lomxml = etree.fromstring(lomstring)
+        except Exception as e:
+            raise RuntimeError(e)
+
+        self.fieldset = fieldset
+        self.__parseLom()
+
+
     def setCustomEmptyLom(self,customdict):
         """ Sets a custom empty LOM dictionary. In this, the user can specify
         how answers should be formatted, for example always return the first title."""
@@ -32,7 +43,7 @@ class LomReader(Lom):
 
 
     def __parseLom(self):
-        if not self.lomxml:
+        if self.lomxml is None:
             raise RuntimeError("there is no LOM Etree object")
 
         if self.fieldset:

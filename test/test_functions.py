@@ -15,3 +15,9 @@ class FunctionsTestCase(TestCase):
         self.assertEqual(self.lomreader.lom["structure"]["source"],"LOMv1.0")
         self.assertEqual(self.lomreader.lom["structure"]["value"],"hierarchical")
         self.assertEqual(self.lomreader.lom["size"],"")
+
+    def test_stringread(self):
+        with open("test/records/ims-complete.xml", "r") as f:
+            lomstring = f.read()
+        self.lomreader.parseString(lomstring)
+        self.assertEqual(self.lomreader.lom["title"],"Bloodbath of B-R5RB")
