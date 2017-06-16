@@ -1,7 +1,7 @@
 from unittest import TestCase
 from pylom.reader import LomReader
 
-class ElementsTestCase(TestCase):
+class ReaderElementsTestCase(TestCase):
     @classmethod
     def setUpClass(self):
         self.lomreader = LomReader()
@@ -102,7 +102,6 @@ class ElementsTestCase(TestCase):
         self.assertEqual(self.lomreader.lom["educational"][0]["difficulty"]["source"], "LOMv1.0")
         self.assertEqual(self.lomreader.lom["educational"][0]["difficulty"]["value"], "difficult")
         self.assertEqual(self.lomreader.lom["educational"][0]["typicallearningtime"]["datetime"],"PT0H30M")
-        self.assertEqual(self.lomreader.lom["educational"][0]["typicallearningtime"]["description"],"understanding reading time")
         self.assertEqual(self.lomreader.lom["educational"][0]["typicallearningtime"]["description"],"understanding reading time")
         self.assertEqual(self.lomreader.lom["educational"][0]["description"][0],"for individual reading")
         self.assertEqual(self.lomreader.lom["educational"][0]["language"][0],"en")

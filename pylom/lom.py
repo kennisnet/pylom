@@ -10,6 +10,8 @@ class Lom:
         self.lang = language
 
         self.__setFieldMethods()
+        self.__setVocabularySources()
+
 
     def __setFieldMethods(self):
         """ Sets all field methods in correct order,
@@ -40,3 +42,21 @@ class Lom:
         self.fmethods["copyrightdescription"] = "__setFieldCopyrightDescription"
         self.fmethods["relation"] = "__setFieldRelation"
         self.fmethods["classification"] = "__setFieldClassification"
+
+    def __setVocabularySources(self):
+        """ Set default field vocabulary sources"""
+        self.vocabulary_sources = {
+            "aggregationlevel": "LOMv1.0",
+            "structure": "LOMv1.0",
+            "status": "LOMv1.0",
+            "lifecycle-contribute-role": "LOMv1.0",
+            "metametadata-contribute-role": "LOMv1.0",
+            "interactivitytype": "LOMv1.0",
+            "learningresourcetype": "LOMv1.0",
+            "interactivitylevel": "LOMv1.0",
+            "semanticdensity": "LOMv1.0",
+            "intendedenduserrole": "LOMv1.0",
+            "context": "LOMv1.0",
+            "difficulty": "LOMv1.0",
+            "cost": "LOMv1.0",
+            "copyrightandotherrestrictions": "LOMv1.0" }
