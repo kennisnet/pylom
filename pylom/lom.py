@@ -59,4 +59,6 @@ class Lom:
             "context": "LOMv1.0",
             "difficulty": "LOMv1.0",
             "cost": "LOMv1.0",
-            "copyrightandotherrestrictions": "LOMv1.0" }
+            "copyrightandotherrestrictions": "LOMv1.0",
+            "kind": "LOMv1.0",
+            "purpose": "LOMv1.0" }

@@ -34,6 +34,7 @@ class LomWriter(Lom):
         self.technical = etree.Element(self.lomns + "technical")
         self.educational = []
         self.rights = etree.Element(self.lomns + "rights")
+        self.relation = []
 
         self.tmp_element = None
 
@@ -59,6 +60,9 @@ class LomWriter(Lom):
         if self.technical.getchildren():
             self.lomxml.append(self.technical)
         for e in self.educational:
+            if e.getchildren():
+                self.lomxml.append(e)
+        for e in self.relation:
             if e.getchildren():
                 self.lomxml.append(e)
         if self.rights.getchildren():
@@ -166,6 +170,32 @@ class LomWriter(Lom):
 
     def __setFieldCopyrightDescription(self,value):
         self.__setField(self.rights,self.__checkLangstringElement("description",value))
+
+    def __setFieldRelation(self,value):
+        for v in value:
+            if "kind" not in v or "resource" not in v:
+                raise ValueError("bad definition for input field: relation")
+
+            self.tmp_element = self.__getElement("relation")
+            self.__setField(self.tmp_element, self.__checkVocabularyElement("kind",v["kind"]))
+            if not isinstance(v["resource"], dict) or not "catalogentry" in v["resource"]:
+                raise ValueError("bad definition for input field: relation resource")
+
+            resource = self.__getElement("resource")
+            if "description" in v["resource"]:
+                description = self.__checkLangstringElement("description", v["resource"]["description"])
+                if isinstance(description,list):
+                    for e in description:
+                        resource.append(e)
+                else:
+                    resource.append(description)
+
+            for c in v["resource"]["catalogentry"]:
+                resource.append(self.__checkCatalogEntryElement(c))
+
+            self.tmp_element.append(resource)
+            self.relation.append(self.tmp_element)
+            self.tmp_element = None
 
 
     def __setField(self,root,element):
