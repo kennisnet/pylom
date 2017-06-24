@@ -224,15 +224,11 @@ class LomWriter(Lom):
                     raise ValueError("bad definition for input field: classification taxonpath taxon")
 
                 for t in tp["taxon"]:
-                    if not isinstance(t, dict) or "id" not in t or "entry" not in t:
+                    if not self.__validateTaxon(t):
                         raise ValueError("bad definition for input field: classification taxonpath taxon")
 
                     taxon = self.__getElement("taxon")
-                    if not isinstance(t["id"], str) or not t["id"]:
-                        raise ValueError("bad definition for input field: classification taxonpath taxon id")
                     taxon.append(self.__getElement("id", t["id"]))
-                    if not isinstance(t["entry"], str) or not t["entry"]:
-                        raise ValueError("bad definition for input field: classification taxonpath taxon entry")
                     taxon.append(self.__getLangstringElement("entry", t["entry"]))
                     taxonpath.append(taxon)
 
@@ -392,6 +388,13 @@ class LomWriter(Lom):
     def __validateDateTime(self,value):
         """ Validates provided value in for a datetime. """
         if self.__validateDictionaryKey(value,"datetime") and self.__validateDictionaryKey(value,"description"):
+            return True
+        else:
+            return False
+
+    def __validateTaxon(self,value):
+        """ Validates provided value in for a classification taxon. """
+        if self.__validateDictionaryKey(value,"id") and self.__validateDictionaryKey(value,"entry"):
             return True
         else:
             return False
