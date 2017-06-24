@@ -141,3 +141,20 @@ class WriterElementsTestCase(TestCase):
         self.assertEqual(self.lomreader.lom["relation"][1]["resource"]["description"][0], "Wikipedia pages linking to this")
         self.assertEqual(self.lomreader.lom["relation"][1]["resource"]["catalogentry"][0]["catalog"], "URI")
         self.assertEqual(self.lomreader.lom["relation"][1]["resource"]["catalogentry"][0]["entry"], "https://www.wikidata.org/wiki/Q336177")
+
+    def test_classification(self):
+        classifications = [
+            { "purpose": "idea",
+                "taxonpath": [ { "source": "https://en.wikipedia.org/wiki/Category:Articles", "taxon": [
+                    { "id": "Category:Games", "entry": "Games" },
+                    { "id": "Category:Space_MMORPGs", "entry": "Space MMORPGs" } ] } ] } ]
+        lomwriter = LomWriter()
+        lomwriter.parseDict({"classification": classifications})
+        self.lomreader.parseString(lomwriter.lom,["classification"])
+        self.assertEqual(self.lomreader.lom["classification"][0]["purpose"]["source"], "LOMv1.0")
+        self.assertEqual(self.lomreader.lom["classification"][0]["purpose"]["value"], "idea")
+        self.assertEqual(self.lomreader.lom["classification"][0]["taxonpath"][0]["source"], "https://en.wikipedia.org/wiki/Category:Articles")
+        self.assertEqual(self.lomreader.lom["classification"][0]["taxonpath"][0]["taxon"][0]["id"], "Category:Games")
+        self.assertEqual(self.lomreader.lom["classification"][0]["taxonpath"][0]["taxon"][0]["entry"], "Games")
+        self.assertEqual(self.lomreader.lom["classification"][0]["taxonpath"][0]["taxon"][1]["id"], "Category:Space_MMORPGs")
+        self.assertEqual(self.lomreader.lom["classification"][0]["taxonpath"][0]["taxon"][1]["entry"], "Space MMORPGs")

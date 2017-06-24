@@ -10,7 +10,6 @@ Different type of methodes:
  __get*Element return the actual etree parts
 
 TODO
-- relation + classification
 - vocabulary, provide list of source/value dicts
 - docs in readme
 - fail unit tests
@@ -35,7 +34,9 @@ class LomWriter(Lom):
         self.educational = []
         self.rights = etree.Element(self.lomns + "rights")
         self.relation = []
+        self.classification = []
 
+        # used in educational, relation and classification
         self.tmp_element = None
 
 
@@ -62,11 +63,12 @@ class LomWriter(Lom):
         for e in self.educational:
             if e.getchildren():
                 self.lomxml.append(e)
-        for e in self.relation:
-            if e.getchildren():
-                self.lomxml.append(e)
         if self.rights.getchildren():
             self.lomxml.append(self.rights)
+        for e in self.relation:
+            self.lomxml.append(e)
+        for e in self.classification:
+            self.lomxml.append(e)
 
         self.lom = etree.tostring(self.lomxml, pretty_print=True)
 
@@ -178,6 +180,7 @@ class LomWriter(Lom):
 
             self.tmp_element = self.__getElement("relation")
             self.__setField(self.tmp_element, self.__checkVocabularyElement("kind",v["kind"]))
+
             if not isinstance(v["resource"], dict) or not "catalogentry" in v["resource"]:
                 raise ValueError("bad definition for input field: relation resource")
 
@@ -195,6 +198,47 @@ class LomWriter(Lom):
 
             self.tmp_element.append(resource)
             self.relation.append(self.tmp_element)
+            self.tmp_element = None
+
+    def __setFieldClassification(self,value):
+        for v in value:
+            if "purpose" not in v or "taxonpath" not in v:
+                raise ValueError("bad definition for input field: classification")
+
+            self.tmp_element = self.__getElement("classification")
+            self.__setField(self.tmp_element, self.__checkVocabularyElement("purpose",v["purpose"]))
+            if not isinstance(v["taxonpath"], list):
+                raise ValueError("bad definition for input field: classification taxonpath")
+
+            for tp in v["taxonpath"]:
+                if "source" not in tp or "taxon" not in tp:
+                    raise ValueError("bad definition for input field: classification taxonpath")
+
+                taxonpath = self.__getElement("taxonpath")
+
+                if not isinstance(tp["source"], str) or not tp["source"]:
+                    raise ValueError("bad definition for input field: classification taxonpath source")
+                taxonpath.append(self.__getLangstringElement("source", tp["source"]))
+
+                if not isinstance(tp["taxon"], list):
+                    raise ValueError("bad definition for input field: classification taxonpath taxon")
+
+                for t in tp["taxon"]:
+                    if not isinstance(t, dict) or "id" not in t or "entry" not in t:
+                        raise ValueError("bad definition for input field: classification taxonpath taxon")
+
+                    taxon = self.__getElement("taxon")
+                    if not isinstance(t["id"], str) or not t["id"]:
+                        raise ValueError("bad definition for input field: classification taxonpath taxon id")
+                    taxon.append(self.__getElement("id", t["id"]))
+                    if not isinstance(t["entry"], str) or not t["entry"]:
+                        raise ValueError("bad definition for input field: classification taxonpath taxon entry")
+                    taxon.append(self.__getLangstringElement("entry", t["entry"]))
+                    taxonpath.append(taxon)
+
+                self.tmp_element.append(taxonpath)
+
+            self.classification.append(self.tmp_element)
             self.tmp_element = None
 
 
