@@ -8,11 +8,6 @@ Different type of methodes:
  __check*Element validates the different kinds of input that should be supported for that element and returns element, single or in list
  __setField, actually sets the returned element or list of elements
  __get*Element return the actual etree parts
-
-TODO
-- vocabulary, provide list of source/value dicts
-- docs in readme
-- fail unit tests
 """
 
 from pylom.lom import Lom
