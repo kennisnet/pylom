@@ -1,7 +1,7 @@
 from unittest import TestCase
 from pylom.reader import LomReader
 
-class ElementsTestCase(TestCase):
+class FailReaderElementsTestCase(TestCase):
     @classmethod
     def setUpClass(self):
         self.lomreader = LomReader()
