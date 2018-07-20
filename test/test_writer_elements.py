@@ -13,6 +13,12 @@ class WriterElementsTestCase(TestCase):
         self.lomreader.parseString(lomwriter.lom,["title"])
         self.assertEqual(self.lomreader.lom["title"], "Bloodbath of B-R5RB")
 
+    def test_title_unicode(self):
+        lomwriter = LomWriter()
+        lomwriter.parseDict({"title": u"Bloodbath of B-R5RB"})
+        self.lomreader.parseString(lomwriter.lom,["title"])
+        self.assertEqual(self.lomreader.lom["title"], "Bloodbath of B-R5RB")
+
     def test_catalogentry(self):
         lomwriter = LomWriter()
         lomwriter.parseDict({"catalogentry": [{"catalog": "URI", "entry": "https://www.wikidata.org/wiki/Q16987908"}]})

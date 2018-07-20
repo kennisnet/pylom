@@ -12,7 +12,7 @@ Different type of methodes:
 
 from pylom.lom import Lom
 from lxml import etree
-
+from sys import version_info
 
 class LomWriter(Lom):
     def __init__(self,language="en"):
@@ -254,7 +254,9 @@ class LomWriter(Lom):
             raise ValueError("bad definition for input field: " + field)
 
     def __checkLangstringElement(self,field,value,language=None):
-        if isinstance(value, str) and value:
+        if version_info.major == 3 and isinstance(value, str) and value:
+            return self.__getLangstringElement(field,value,language)
+        elif version_info.major == 2 and (isinstance(value, str) or isinstance(value, unicode)) and value:
             return self.__getLangstringElement(field,value,language)
         elif isinstance(value, list):
             l = []
