@@ -50,7 +50,7 @@ creating the instance.
 from pylom.writer import LomWriter
 
 lomwriter = LomWriter()
-lomwriter.vocabulary_sources = { "aggregationlevel": "my-source" }
+lomwriter.vocabulary_sources.update( { "aggregationlevel": "my-source" } )
 lomwriter.parseDict({"aggregationlevel": "2"})
 print(lomwriter.lom)
 ```
