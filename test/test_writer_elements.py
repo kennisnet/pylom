@@ -94,6 +94,7 @@ class WriterElementsTestCase(TestCase):
                           "learningresourcetype": "narrative text",
                           "interactivitylevel": "low",
                           "semanticdensity": "high",
+                          "typicalagerange": "12+",
                           "intendedenduserrole": "learner",
                           "context": ["school", "higher education"],
                           "difficulty": "difficult" }]
@@ -116,6 +117,7 @@ class WriterElementsTestCase(TestCase):
         self.assertEqual(self.lomreader.lom["educational"][0]["context"][1]["value"], "higher education")
         self.assertEqual(self.lomreader.lom["educational"][0]["difficulty"]["source"], "LOMv1.0")
         self.assertEqual(self.lomreader.lom["educational"][0]["difficulty"]["value"], "difficult")
+        self.assertEqual(self.lomreader.lom["educational"][0]["typicalagerange"][0], "12+")
 
     def test_cost(self):
         lomwriter = LomWriter()

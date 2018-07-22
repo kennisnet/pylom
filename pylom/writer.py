@@ -146,7 +146,7 @@ class LomWriter(Lom):
             if "context" in v:
                 self.__setField(self.tmp_element, self.__checkVocabularyElement("context",v["context"]))
             if "typicalagerange" in v:
-                self.__setField(self.__checkLangstringElement("typicalagerange",v["typicalagerange"],"x-none"))
+                self.__setField(self.tmp_element, self.__checkLangstringElement("typicalagerange",v["typicalagerange"],"x-none"))
             if "difficulty" in v:
                 self.__setField(self.tmp_element, self.__checkVocabularyElement("difficulty",v["difficulty"]))
             if "typicallearningtime" in v:
