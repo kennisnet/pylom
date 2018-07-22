@@ -3,9 +3,9 @@ from pylom.reader import LomReader
 from pylom.writer import LomWriter
 
 class WriterElementsTestCase(TestCase):
-    @classmethod
-    def setUpClass(self):
+    def setUp(self):
         self.lomreader = LomReader()
+
 
     def test_title(self):
         lomwriter = LomWriter()
@@ -46,12 +46,18 @@ class WriterElementsTestCase(TestCase):
         self.assertEqual(self.lomreader.lom["structure"]["source"],"LOMv1.0")
         self.assertEqual(self.lomreader.lom["structure"]["value"],"hierarchical")
 
+    def test_structure_unicode(self):
+        lomwriter = LomWriter()
+        lomwriter.parseDict({"structure": u"hierarchical"})
+        self.lomreader.parseString(lomwriter.lom,["structure"])
+        self.assertEqual(self.lomreader.lom["structure"]["value"],"hierarchical")
+
     def test_aggregationlevel(self):
         lomwriter = LomWriter()
-        lomwriter.parseDict({"aggregationlevel": {"source": "custom", "value": "hierarchical"}})
+        lomwriter.parseDict({"aggregationlevel": {"source": "custom", "value": "5"}})
         self.lomreader.parseString(lomwriter.lom,["aggregationlevel"])
         self.assertEqual(self.lomreader.lom["aggregationlevel"]["source"],"custom")
-        self.assertEqual(self.lomreader.lom["aggregationlevel"]["value"],"hierarchical")
+        self.assertEqual(self.lomreader.lom["aggregationlevel"]["value"],"5")
 
     def test_status(self):
         lomwriter = LomWriter()

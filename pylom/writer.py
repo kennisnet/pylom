@@ -12,7 +12,6 @@ Different type of methodes:
 
 from pylom.lom import Lom
 from lxml import etree
-from sys import version_info
 
 class LomWriter(Lom):
     def __init__(self,language="en"):
@@ -33,6 +32,13 @@ class LomWriter(Lom):
 
         # used in educational, relation and classification
         self.tmp_element = None
+
+        # python 2/3 compatible basestring instance checking
+        try:
+            basestring
+            self.basestring = basestring
+        except NameError:
+            self.basestring = str
 
 
     def parseDict(self,lomdict):
@@ -243,9 +249,7 @@ class LomWriter(Lom):
 
 
     def __checkElement(self,field,value):
-        if version_info.major == 3 and isinstance(value, str) and value:
-            return self.__getElement(field,value)
-        elif version_info.major == 2 and isinstance(value, basestring) and value:
+        if isinstance(value, self.basestring) and value:
             return self.__getElement(field,value)
         elif isinstance(value, list):
             l = []
@@ -256,9 +260,7 @@ class LomWriter(Lom):
             raise ValueError("bad definition for input field: " + field)
 
     def __checkLangstringElement(self,field,value,language=None):
-        if version_info.major == 3 and isinstance(value, str) and value:
-            return self.__getLangstringElement(field,value,language)
-        elif version_info.major == 2 and isinstance(value, basestring) and value:
+        if isinstance(value, self.basestring) and value:
             return self.__getLangstringElement(field,value,language)
         elif isinstance(value, list):
             l = []
@@ -279,13 +281,13 @@ class LomWriter(Lom):
         vocabulary values can be string, add one and lookup source,
         list of values and lookup source as well,
         or dict, or list of dicts, specifying the source. """
-        if isinstance(value, str) and value:
+        if isinstance(value, self.basestring) and value:
             return self.__getVocabularyElement(field,value,source)
         elif isinstance(value, dict) and self.__validateVocabulary(value):
             return self.__getVocabularyElement(field,value["value"],value["source"])
         elif isinstance(value, list) and value:
             l = []
-            if isinstance(value[0], str):
+            if isinstance(value[0], self.basestring):
                 for v in (v for v in value if v):
                     l.append(self.__getVocabularyElement(field,v,source))
             else:
