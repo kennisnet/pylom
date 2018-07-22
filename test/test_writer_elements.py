@@ -70,6 +70,18 @@ class WriterElementsTestCase(TestCase):
         self.assertEqual(self.lomreader.lom["contribute"][0]["entity"][0],"BEGIN:VCARD\nFN:Wikipedia\nEND:VCARD")
         self.assertEqual(self.lomreader.lom["contribute"][0]["date"]["datetime"],"2014-02-02T15:30:00Z")
 
+    def test_location(self):
+        lomwriter = LomWriter()
+        lomwriter.parseDict({"location": "https://www.wikidata.org/wiki/Q16987908"})
+        self.lomreader.parseString(lomwriter.lom,["location"])
+        self.assertEqual(self.lomreader.lom["location"],"https://www.wikidata.org/wiki/Q16987908")
+
+    def test_location_unicode(self):
+        lomwriter = LomWriter()
+        lomwriter.parseDict({"location": u"https://www.wikidata.org/wiki/Q16987908"})
+        self.lomreader.parseString(lomwriter.lom,["location"])
+        self.assertEqual(self.lomreader.lom["location"],"https://www.wikidata.org/wiki/Q16987908")
+
     def test_duration(self):
         lomwriter = LomWriter()
         lomwriter.parseDict({"duration": {"datetime": "PT0H16M", "description": "technical reading time"}})

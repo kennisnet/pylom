@@ -243,7 +243,9 @@ class LomWriter(Lom):
 
 
     def __checkElement(self,field,value):
-        if isinstance(value, str) and value:
+        if version_info.major == 3 and isinstance(value, str) and value:
+            return self.__getElement(field,value)
+        elif version_info.major == 2 and (isinstance(value, str) or isinstance(value, unicode)) and value:
             return self.__getElement(field,value)
         elif isinstance(value, list):
             l = []
