@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kennisnet/pylom.svg?branch=master)](https://travis-ci.org/kennisnet/pylom)
+
 # PyLom
 This is a Python library for reading and writing IMS-LOM files. It's tested for Python 2.7 and 3.4.
 Almost all fields are supported, but only one language will be supported for language-specific langstring elements.
