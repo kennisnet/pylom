@@ -1,7 +1,9 @@
 [![Build Status](https://travis-ci.org/kennisnet/pylom.svg?branch=master)](https://travis-ci.org/kennisnet/pylom)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/pylom.svg)](https://pypi.org/project/pylom/)
+[![PyPI version](https://img.shields.io/pypi/v/pylom.svg)](https://pypi.org/project/pylom/)
 
 # PyLom
-This is a Python library for reading and writing IMS-LOM files. It's tested for Python 2.7 and 3.4.
+This is a Python library for reading and writing IMS-LOM files.
 Almost all fields are supported, but only one language will be supported for language-specific langstring elements.
 
 ## Reader Usage
