@@ -15,3 +15,8 @@ class FailReaderElementsTestCase(TestCase):
 
     def test_no_occurence(self):
         self.assertEqual(self.lomreader.lom["version"],"")
+
+    def test_broken_vcard(self):
+        self.assertEqual(len(self.lomreader.lom["contribute"][0]["vcard"]), 2)
+        self.assertEqual(self.lomreader.lom["contribute"][0]["vcard"][0], {})
+        self.assertEqual(self.lomreader.lom["contribute"][0]["vcard"][1]["fn"], "Correct Vcard")

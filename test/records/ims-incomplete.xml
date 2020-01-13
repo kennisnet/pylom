@@ -24,8 +24,28 @@
                 <lom:langstring xml:lang="x-none"/>
             </lom:value>
         </lom:aggregationlevel>
-        <lom:lifecycle>
-            <!-- don't set version, we're testing on it staying empty -->
-        </lom:lifecycle>
     </lom:general>
+    <lom:lifecycle>
+            <!-- don't set version, we're testing on it staying empty -->
+            <lom:contribute>
+            <lom:role>
+                <lom:source>
+                    <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+                </lom:source>
+                <lom:value>
+                    <lom:langstring xml:lang="x-none">publisher</lom:langstring>
+                </lom:value>
+            </lom:role>
+            <lom:centity>
+                <lom:vcard>BEGIN:WRONGTAG
+EX:Example
+END:VCARD</lom:vcard>
+            </lom:centity>
+            <lom:centity>
+                <lom:vcard>BEGIN:VCARD
+FN:Correct Vcard
+END:VCARD</lom:vcard>
+            </lom:centity>
+        </lom:contribute>
+    </lom:lifecycle>
 </lom:lom>
