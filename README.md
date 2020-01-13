@@ -5,6 +5,7 @@
 # PyLom
 This is a Python library for reading and writing IMS-LOM files.
 Almost all fields are supported, but only one language will be supported for language-specific langstring elements.
+The reader supports common vCard field extraction with vobject.
 
 ## Reader Usage
 Basically, import the class and tell it to parse a lom file. The parsed data will be available in the *lom* attribute dict.
@@ -84,6 +85,7 @@ print(lomwriter.lom)
 
 ## Dependencies
 - [lxml](http://lxml.de/)
+- [vcard](https://github.com/eventable/vobject)
 - [setuptools](https://github.com/pypa/setuptools)
 
 ## To Do

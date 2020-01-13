@@ -74,6 +74,7 @@
             <lom:centity>
                 <lom:vcard>BEGIN:VCARD
 FN:Wikipedia
+ORG:Wikipedia
 END:VCARD</lom:vcard>
             </lom:centity>
             <lom:date>

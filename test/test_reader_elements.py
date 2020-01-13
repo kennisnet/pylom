@@ -47,12 +47,15 @@ class ReaderElementsTestCase(TestCase):
     def test_contribute(self):
         self.assertEqual(self.lomreader.lom["contribute"][0]["role"]["source"],"LOMv1.0")
         self.assertEqual(self.lomreader.lom["contribute"][0]["role"]["value"],"publisher")
-        self.assertEqual(self.lomreader.lom["contribute"][0]["entity"][0],"BEGIN:VCARD\nFN:Wikipedia\nEND:VCARD")
+        self.assertEqual(self.lomreader.lom["contribute"][0]["entity"][0],"BEGIN:VCARD\nFN:Wikipedia\nORG:Wikipedia\nEND:VCARD")
         self.assertEqual(self.lomreader.lom["contribute"][0]["date"]["datetime"],"2014-02-02T15:30:00Z")
+        self.assertEqual(self.lomreader.lom["contribute"][0]["vcard"][0]["fn"],"Wikipedia")
+        self.assertEqual(self.lomreader.lom["contribute"][0]["vcard"][0]["org"],"Wikipedia")
         self.assertEqual(self.lomreader.lom["contribute"][1]["role"]["source"],"LOMv1.0")
         self.assertEqual(self.lomreader.lom["contribute"][1]["role"]["value"],"author")
         self.assertEqual(self.lomreader.lom["contribute"][1]["entity"][0],"BEGIN:VCARD\nFN:3family6\nEND:VCARD")
         self.assertEqual(self.lomreader.lom["contribute"][1]["date"]["datetime"],"2017-06-08T03:16:00Z")
+        self.assertEqual(self.lomreader.lom["contribute"][1]["vcard"][0]["fn"],"3family6")
 
     def test_metacatalogentry(self):
         self.assertEqual(self.lomreader.lom["metacatalogentry"][0]["catalog"], "URI")
@@ -63,6 +66,7 @@ class ReaderElementsTestCase(TestCase):
         self.assertEqual(self.lomreader.lom["metacontribute"][0]["role"]["value"],"creator")
         self.assertEqual(self.lomreader.lom["metacontribute"][0]["entity"][0],"BEGIN:VCARD\nUID:https://github.com/wimmuskee\nEND:VCARD")
         self.assertEqual(self.lomreader.lom["metacontribute"][0]["date"]["datetime"],"2017")
+        self.assertEqual(self.lomreader.lom["metacontribute"][0]["vcard"][0]["uid"],"https://github.com/wimmuskee")
 
     def test_metadatascheme(self):
         self.assertIn("LOMv1.0", self.lomreader.lom["metadatascheme"])

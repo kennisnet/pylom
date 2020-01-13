@@ -2,6 +2,7 @@
 
 from pylom.lom import Lom
 from lxml import etree
+import vobject
 
 class LomReader(Lom):
     def __init__(self,language="en"):
@@ -267,13 +268,34 @@ class LomReader(Lom):
         element = self.lomxml.xpath(xpath, namespaces=self.ns)
         if element:
             for e in element:
-                data = {"role": "", "entity": [], "date": ""}
+                data = {"role": "", "entity": [], "date": "", "vcard": []}
                 data["role"] = self.__getSingleVocabularyElement(e,"lom:role")
                 data["entity"] = self.__getMultipleElement(e, "lom:centity/lom:vcard")
                 data["date"] = self.__getDurationElement(e, "lom:date")
 
+                for entity in data["entity"]:
+                    data["vcard"].append(self.__setVcard(entity))
+
                 self.lom[lomkey].append(data)
 
+    def __setVcard(self,entity):
+        """ Simplified parsing for some vcard attributes. """
+        data = {}
+        try:
+            v = vobject.readOne(entity)
+        except Exception:
+            return data
+
+        if "fn" in v.contents:
+            data["fn"] = v.fn.value
+        if "n" in v.contents:
+            data["n"] = v.n.value
+        if "org" in v.contents:
+            data["org"] = v.org.value[0]
+        if "uid" in v.contents:
+            data["uid"] = v.uid.value
+
+        return data
 
     def __getDurationElement(self,etreepart,xpath):
         element = etreepart.xpath(xpath, namespaces=self.ns)
