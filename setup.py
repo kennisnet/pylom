@@ -13,7 +13,7 @@ setup(
     description = ("Library for parsing IMS-LOM xml records."),
     license = "MIT",
     keywords = "lom parsing xml",
-    packages=find_packages(),
+    packages=find_packages(exclude=["test"]),
     long_description=read('README.md'),
     long_description_content_type="text/markdown",
     url="https://github.com/kennisnet/pylom",
