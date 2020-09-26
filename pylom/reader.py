@@ -193,6 +193,9 @@ class LomReader(Lom):
 
     def __setFieldCopyrightDescription(self):
         self.__setElement("/lom:lom/lom:rights/lom:description/lom:langstring[@xml:lang='" + self.lang + "']", "copyrightdescription")
+        if not self.lom["copyrightdescription"]:
+            # fallback to x-none langstring
+            self.__setElement("/lom:lom/lom:rights/lom:description/lom:langstring[@xml:lang='x-none']", "copyrightdescription")
 
     def __setFieldRelation(self):
         """ Parses the relation element. """

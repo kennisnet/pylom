@@ -238,7 +238,7 @@ END:VCARD</lom:vcard>
             </lom:value>
         </lom:copyrightandotherrestrictions>
         <lom:description>
-            <lom:langstring xml:lang="en">Creative Commons Attribution-ShareAlike License</lom:langstring>
+            <lom:langstring xml:lang="x-none">Creative Commons Attribution-ShareAlike License</lom:langstring>
         </lom:description>
     </lom:rights>
     <lom:relation>
