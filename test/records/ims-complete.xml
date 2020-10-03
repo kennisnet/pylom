@@ -289,6 +289,27 @@ END:VCARD</lom:vcard>
             </lom:catalogentry>
         </lom:resource>
     </lom:relation>
+    <lom:relation>
+        <lom:kind>
+            <lom:source>
+                <lom:langstring xml:lang="x-none">LOMv1.0</lom:langstring>
+            </lom:source>
+            <lom:value>
+                <lom:langstring xml:lang="x-none">hasformat</lom:langstring>
+            </lom:value>
+        </lom:kind>
+        <lom:resource>
+            <lom:description>
+                <lom:langstring xml:lang="x-none">application/pdf</lom:langstring>
+            </lom:description>
+            <lom:catalogentry>
+                <lom:catalog>URI</lom:catalog>
+                <lom:entry>
+                    <lom:langstring>https://en.wikipedia.org/w/index.php?title=Special:DownloadAsPdf&amp;page=Bloodbath_of_B-R5RB&amp;action=show-download-screen</lom:langstring>
+                </lom:entry>
+            </lom:catalogentry>
+        </lom:resource>
+    </lom:relation>
     <lom:classification>
         <lom:purpose>
             <lom:source>

@@ -208,6 +208,9 @@ class LomReader(Lom):
                 if resource:
                     res_data = {"description": [], "catalogentry": []}
                     res_data["description"] = self.__getMultipleElement(resource[0],"lom:description/lom:langstring[@xml:lang='" + self.lang + "']")
+                    if not res_data["description"]:
+                        # fallback to x-none langstring
+                        res_data["description"] = self.__getMultipleElement(resource[0],"lom:description/lom:langstring[@xml:lang='x-none']")
                     catalogentry = resource[0].xpath("lom:catalogentry", namespaces=self.ns)
                     if catalogentry:
                         res_data["catalogentry"] = self.__getCatalogEntryElement(catalogentry)

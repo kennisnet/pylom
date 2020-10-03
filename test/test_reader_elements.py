@@ -134,6 +134,10 @@ class ReaderElementsTestCase(TestCase):
         self.assertEqual(self.lomreader.lom["relation"][1]["resource"]["description"][0], "Wikipedia pages linking to this")
         self.assertEqual(self.lomreader.lom["relation"][1]["resource"]["catalogentry"][0]["catalog"], "URI")
         self.assertEqual(self.lomreader.lom["relation"][1]["resource"]["catalogentry"][0]["entry"], "https://www.wikidata.org/wiki/Q336177")
+        self.assertEqual(self.lomreader.lom["relation"][2]["kind"]["source"], "LOMv1.0")
+        self.assertEqual(self.lomreader.lom["relation"][2]["kind"]["value"], "hasformat")
+        self.assertEqual(self.lomreader.lom["relation"][2]["resource"]["description"][0], "application/pdf")
+        self.assertEqual(self.lomreader.lom["relation"][2]["resource"]["catalogentry"][0]["entry"], "https://en.wikipedia.org/w/index.php?title=Special:DownloadAsPdf&page=Bloodbath_of_B-R5RB&action=show-download-screen")
 
     def test_classification(self):
         self.assertEqual(self.lomreader.lom["classification"][0]["purpose"]["source"], "LOMv1.0")
